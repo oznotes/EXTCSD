@@ -48,7 +48,7 @@ if __name__ == '__main__':
     EXTCSD_REVISION = \
         {
             '0x9': 'Reserved for future ',
-            '0x8': 'Reserved for future ',
+            '0x8': 'Revision 1.8 (for MMC v5.1)',
             '0x7': 'Revision 1.7 (for MMC v5.0, v5.01) ',
             '0x6': 'Revision 1.6 (for MMC v4.5, v4.51) ',
             '0x5': 'Revision 1.5 (for MMC v4.41) ',
@@ -109,7 +109,7 @@ if __name__ == '__main__':
         sys.exit()
     CSD_rev = "0x{:x}".format(ecsd[194])
     EXT_CSD_rev = "0x{:x}".format(ecsd[192])
-    partition_config = "0x{:x}".format(ecsd[179])
+    partition_config = "0x{:x}".format(ecsd[179]) # 50 is 110010
     boot_size = int(ecsd[226]) * 128  # BOOT_SIZE_MULT [226] Boot Partition size = 128K bytes * BOOT_SIZE_MULT
     rpmb_size = int(ecsd[168]) * 128  # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
     print "\n"
