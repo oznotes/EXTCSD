@@ -110,6 +110,9 @@ if __name__ == '__main__':
     partition_config = "0x{:x}".format(ecsd[179])
     boot_size = int(ecsd[226]) * 128  # BOOT_SIZE_MULT [226] Boot Partition size = 128K bytes * BOOT_SIZE_MULT
     rpmb_size = int(ecsd[168]) * 128  # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
+    print "\n"
+    print "EXTCSD Decoder\n"
+    print "========================================"
     print "Boot Partition Size : " + str(boot_size) + " KB"
     print "RPMB Size : " + str(rpmb_size) + " KB"
     print PARTITION_CONFIG_KEY[partition_config]
