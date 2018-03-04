@@ -34,6 +34,8 @@ if __name__ == '__main__':
 
     PARTITION_CONFIG_KEY = \
         {
+            '0x0':  'Device not boot enabled (default)',
+            '0x00': 'Device not boot enabled (default)',
             '0x08': 'Boot 1 enabled ',
             '0x10': 'Boot 2 enabled ',
             '0x38': 'User Area enabled ',
