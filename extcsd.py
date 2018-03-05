@@ -65,7 +65,12 @@ if __name__ == '__main__':
         }
 
     """
+    TODO: 
     
+    # add bus width
+    # add bus config 
+    # Test GPP and Clean the formula 
+
     GP_SIZE_MULT_GP0 - GP_SIZE_MULT_GP3 [154:143]
     General_Purpose_Partition_X Size =
     (GP_SIZE_MULT_X_2 * 2^16 + GP_SIZE_MULT_X_1 * 2^8 + GP_SIZE_MULT_X_0 * 2^0) 
@@ -81,6 +86,7 @@ if __name__ == '__main__':
     
     HC_ERASE_GRP_SIZE [224]
     Erase Unit Size = 512 kBytes * HC_ERASE_GRP_SIZE
+    
     
     """
 
@@ -151,13 +157,13 @@ if __name__ == '__main__':
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
-    print "Boot Partition Size : " + str(boot_size) + " KB"
-    print "RPMB Size : " + str(rpmb_size) + " KB"
+    print "Boot Partition Size : " + str(boot_size) + " kB."
+    print "RPMB Size : " + str(rpmb_size) + " kB."
 
     if PARTITION_CONFIG_KEY.get(partition_config) is None:
         print ("Partition Config 0x{:x}".format(ecsd[179]))
     else:
-        print PARTITION_CONFIG_KEY[partition_config]
+        print PARTITION_CONFIG_KEY[partition_config] + "[0x{:x}]".format(ecsd[179])
     if CSD_REVISION.get(CSD_rev) is None:
         print ("CSD Revision 0x{:x}".format(ecsd[194]))
     else:
