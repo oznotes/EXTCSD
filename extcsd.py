@@ -63,6 +63,27 @@ if __name__ == '__main__':
             '0x1': 'CSD version No. 1.1 [ Allocated by MMCA ] ',
             '0x0': 'CSD version No. 1.0 [ Allocated by MMCA ] '
         }
+
+    """
+    
+    GP_SIZE_MULT_GP0 - GP_SIZE_MULT_GP3 [154:143]
+    General_Purpose_Partition_X Size =
+    (GP_SIZE_MULT_X_2 * 2^16 + GP_SIZE_MULT_X_1 * 2^8 + GP_SIZE_MULT_X_0 * 2^0) 
+    * HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512 kBytes.
+    
+    GPP1 = [143:144:145]
+    GPP2 = [146:147:148]
+    GPP3 = [149:150:151]
+    GPP4 = [152:153:154]
+    
+    HC_WP_GRP_SIZE [221]
+    = 512KB * HC_ERASE_GRP_SIZE * HC_WP_GRP_SIZE.
+    
+    HC_ERASE_GRP_SIZE [224]
+    Erase Unit Size = 512 kBytes * HC_ERASE_GRP_SIZE
+    
+    """
+
     if os.path.isfile("extcsd.bin") is True:
         if os.path.getsize("extcsd.bin") > 512:
             print "File size for extcsd.bin should be 512 bytes"
@@ -97,11 +118,37 @@ if __name__ == '__main__':
     else:
         print "File not found"
         sys.exit()
+
+    GP1_SIZE_MULT_X_0 = "0x{:x}".format(ecsd[143])
+    GP1_SIZE_MULT_X_1 = "0x{:x}".format(ecsd[144])
+    GP1_SIZE_MULT_X_2 = "0x{:x}".format(ecsd[145])
+    GP2_SIZE_MULT_X_0 = "0x{:x}".format(ecsd[146])
+    GP2_SIZE_MULT_X_1 = "0x{:x}".format(ecsd[147])
+    GP2_SIZE_MULT_X_2 = "0x{:x}".format(ecsd[148])
+    GP3_SIZE_MULT_X_0 = "0x{:x}".format(ecsd[149])
+    GP3_SIZE_MULT_X_1 = "0x{:x}".format(ecsd[150])
+    GP3_SIZE_MULT_X_2 = "0x{:x}".format(ecsd[151])
+    GP4_SIZE_MULT_X_0 = "0x{:x}".format(ecsd[152])
+    GP4_SIZE_MULT_X_1 = "0x{:x}".format(ecsd[153])
+    GP4_SIZE_MULT_X_2 = "0x{:x}".format(ecsd[154])
+    HC_WP_GRP_SIZE_ECSD = "0x{:x}".format(ecsd[221])
+    HC_ERASE_GRP_SIZE_ECSD = "0x{:x}".format(ecsd[224])
     CSD_rev = "0x{:x}".format(ecsd[194])
     EXT_CSD_rev = "0x{:x}".format(ecsd[192])
     partition_config = "0x{:x}".format(ecsd[179])
     boot_size = int(ecsd[226]) * 128  # BOOT_SIZE_MULT [226] Boot Partition size = 128K bytes * BOOT_SIZE_MULT
     rpmb_size = int(ecsd[168]) * 128  # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
+    HC_WP_GRP_SIZE = 512 * int(ecsd[224]) * int(ecsd[221])
+    HC_ERASE_GRP_SIZE = 512 * int(ecsd[224])
+    GPP1_SIZE = (int(ecsd[143]) * 2**16 + int(ecsd[144]) * 2**8 + int(ecsd[145] * 2**0)) * \
+                HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512
+    GPP2_SIZE = (int(ecsd[146]) * 2**16 + int(ecsd[147]) * 2**8 + int(ecsd[148] * 2**0)) * \
+                HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512
+    GPP3_SIZE = (int(ecsd[149]) * 2**16 + int(ecsd[150]) * 2**8 + int(ecsd[151] * 2**0)) * \
+                HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512
+    GPP4_SIZE = (int(ecsd[152]) * 2**16 + int(ecsd[153]) * 2**8 + int(ecsd[154] * 2**0)) * \
+                HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512
+
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
@@ -120,3 +167,9 @@ if __name__ == '__main__':
         print ("EXT_CSD Revision 0x{:x}".format(ecsd[192]))
     else:
         print EXTCSD_REVISION[EXT_CSD_rev]
+
+    print "GPP1 : " + str(GPP1_SIZE) + " kB. " + \
+          "GPP2 : " + str(GPP2_SIZE) + " kB. " + \
+          "GPP3 : " + str(GPP3_SIZE) + " kB. " + \
+          "GPP4 : " + str(GPP4_SIZE) + " kB. "
+
