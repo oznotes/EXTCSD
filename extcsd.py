@@ -119,18 +119,18 @@ if __name__ == '__main__':
         print "File not found"
         sys.exit()
 
-    GP1_SIZE_MULT_X_0 = "0x{:x}".format(ecsd[143])
-    GP1_SIZE_MULT_X_1 = "0x{:x}".format(ecsd[144])
-    GP1_SIZE_MULT_X_2 = "0x{:x}".format(ecsd[145])
-    GP2_SIZE_MULT_X_0 = "0x{:x}".format(ecsd[146])
-    GP2_SIZE_MULT_X_1 = "0x{:x}".format(ecsd[147])
-    GP2_SIZE_MULT_X_2 = "0x{:x}".format(ecsd[148])
-    GP3_SIZE_MULT_X_0 = "0x{:x}".format(ecsd[149])
-    GP3_SIZE_MULT_X_1 = "0x{:x}".format(ecsd[150])
-    GP3_SIZE_MULT_X_2 = "0x{:x}".format(ecsd[151])
-    GP4_SIZE_MULT_X_0 = "0x{:x}".format(ecsd[152])
-    GP4_SIZE_MULT_X_1 = "0x{:x}".format(ecsd[153])
-    GP4_SIZE_MULT_X_2 = "0x{:x}".format(ecsd[154])
+    GP1_SIZE_MULT_X_0 = int(ecsd[143])
+    GP1_SIZE_MULT_X_1 = int(ecsd[144])
+    GP1_SIZE_MULT_X_2 = int(ecsd[145])
+    GP2_SIZE_MULT_X_0 = int(ecsd[146])
+    GP2_SIZE_MULT_X_1 = int(ecsd[147])
+    GP2_SIZE_MULT_X_2 = int(ecsd[148])
+    GP3_SIZE_MULT_X_0 = int(ecsd[149])
+    GP3_SIZE_MULT_X_1 = int(ecsd[150])
+    GP3_SIZE_MULT_X_2 = int(ecsd[151])
+    GP4_SIZE_MULT_X_0 = int(ecsd[152])
+    GP4_SIZE_MULT_X_1 = int(ecsd[153])
+    GP4_SIZE_MULT_X_2 = int(ecsd[154])
     HC_WP_GRP_SIZE_ECSD = "0x{:x}".format(ecsd[221])
     HC_ERASE_GRP_SIZE_ECSD = "0x{:x}".format(ecsd[224])
     CSD_rev = "0x{:x}".format(ecsd[194])
@@ -140,15 +140,14 @@ if __name__ == '__main__':
     rpmb_size = int(ecsd[168]) * 128  # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
     HC_WP_GRP_SIZE = 512 * int(ecsd[224]) * int(ecsd[221])
     HC_ERASE_GRP_SIZE = 512 * int(ecsd[224])
-    GPP1_SIZE = (int(ecsd[143]) * 2**16 + int(ecsd[144]) * 2**8 + int(ecsd[145] * 2**0)) * \
+    GPP1_SIZE = (GP1_SIZE_MULT_X_2 * 2**16 + GP1_SIZE_MULT_X_1 * 2**8 + GP1_SIZE_MULT_X_0 * 2**0) * \
                 HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512
-    GPP2_SIZE = (int(ecsd[146]) * 2**16 + int(ecsd[147]) * 2**8 + int(ecsd[148] * 2**0)) * \
+    GPP2_SIZE = (GP2_SIZE_MULT_X_2 * 2**16 + GP2_SIZE_MULT_X_1 * 2**8 + GP2_SIZE_MULT_X_0 * 2**0) * \
                 HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512
-    GPP3_SIZE = (int(ecsd[149]) * 2**16 + int(ecsd[150]) * 2**8 + int(ecsd[151] * 2**0)) * \
+    GPP3_SIZE = (GP3_SIZE_MULT_X_2 * 2**16 + GP3_SIZE_MULT_X_1 * 2**8 + GP3_SIZE_MULT_X_0 * 2**0) * \
                 HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512
-    GPP4_SIZE = (int(ecsd[152]) * 2**16 + int(ecsd[153]) * 2**8 + int(ecsd[154] * 2**0)) * \
+    GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0) * \
                 HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512
-
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
