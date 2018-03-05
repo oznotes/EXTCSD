@@ -2,6 +2,14 @@ import binascii
 import sys
 import os
 
+"""
+ TODO : add bus width
+	add bus config 
+	add show GPP partitions details.
+	add key checking and return user friendly 
+	remove the manuals.
+	remove CSD unneccesary keys if there is key checking implemented already 
+"""
 
 def str2bytearray(s):
     if len(s) % 2:
