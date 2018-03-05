@@ -137,7 +137,7 @@ if __name__ == '__main__':
         sys.exit()
     CSD_rev = "0x{:x}".format(ecsd[194])
     EXT_CSD_rev = "0x{:x}".format(ecsd[192])
-    partition_config = "0x{:x}".format(ecsd[179]) 
+    partition_config = "0x{:x}".format(ecsd[179])  
     boot_size = int(ecsd[226]) * 128  # BOOT_SIZE_MULT [226] Boot Partition size = 128K bytes * BOOT_SIZE_MULT
     rpmb_size = int(ecsd[168]) * 128  # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
     print "\n"
@@ -145,6 +145,6 @@ if __name__ == '__main__':
     print "========================================"
     print "Boot Partition Size : " + str(boot_size) + " KB"
     print "RPMB Size : " + str(rpmb_size) + " KB"
-    print PARTITION_CONFIG_KEY[partition_config]
+    print PARTITION_CONFIG_KEY[partition_config] # if PARTITION_CONFIG_KEY.get(partition_config) is not None:
     print CSD_REVISION[CSD_rev]
     print EXTCSD_REVISION[EXT_CSD_rev]
