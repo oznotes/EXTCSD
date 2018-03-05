@@ -3,6 +3,7 @@ import sys
 import os
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 __author__ = "Oz"
 __copyright__ = "EXT CSD Decoder"
 __credits__ = ["https://gist.github.com/kylemanna/5692543"]
@@ -15,6 +16,11 @@ __credits__ = ["https://gist.github.com/kylemanna/5692543"]
 	remove the manuals.
 	remove CSD unneccesary keys if there is key checking implemented already 
 """
+>>>>>>> origin/master
+=======
+__author__ = "Oz"
+__copyright__ = "EXT CSD Decoder"
+__credits__ = ["https://gist.github.com/kylemanna/5692543"]
 >>>>>>> origin/master
 
 def str2bytearray(s):
@@ -56,6 +62,9 @@ if __name__ == '__main__':
             '0x78': 'User Area with ACK enabled '
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/master
     EXTCSD_REVISION = \
         {
             '0x8': 'Revision 1.8 (for MMC v5.1)',
@@ -108,6 +117,7 @@ if __name__ == '__main__':
                 sys.exit()
     else:
         print "File not found"
+<<<<<<< HEAD
         sys.exit()
     CSD_rev = "0x{:x}".format(ecsd[194])
     EXT_CSD_rev = "0x{:x}".format(ecsd[192])
@@ -193,8 +203,24 @@ CSD_REVISION = \
 if os.path.isfile("extcsd.bin") is True:
     if os.path.getsize("extcsd.bin") > 512:
         print "File size for extcsd.bin should be 512 bytes"
+=======
+>>>>>>> origin/master
         sys.exit()
+    CSD_rev = "0x{:x}".format(ecsd[194])
+    EXT_CSD_rev = "0x{:x}".format(ecsd[192])
+    partition_config = "0x{:x}".format(ecsd[179])
+    boot_size = int(ecsd[226]) * 128  # BOOT_SIZE_MULT [226] Boot Partition size = 128K bytes * BOOT_SIZE_MULT
+    rpmb_size = int(ecsd[168]) * 128  # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
+    print "\n"
+    print "EXTCSD Decoder\n"
+    print "========================================"
+    print "Boot Partition Size : " + str(boot_size) + " KB"
+    print "RPMB Size : " + str(rpmb_size) + " KB"
+
+    if PARTITION_CONFIG_KEY.get(partition_config) is None:
+        print ("Partition Config 0x{:x}".format(ecsd[179]))
     else:
+<<<<<<< HEAD
         f = open("extcsd.bin", "rb")
         file_contents = f.read()
         f.close()
@@ -240,4 +266,16 @@ else:
     print PARTITION_CONFIG_KEY[partition_config] # if PARTITION_CONFIG_KEY.get(partition_config) is not None:
 print CSD_REVISION[CSD_rev]
 print EXTCSD_REVISION[EXT_CSD_rev]
+>>>>>>> origin/master
+=======
+        print PARTITION_CONFIG_KEY[partition_config]
+    if CSD_REVISION.get(CSD_rev) is None:
+        print ("CSD Revision 0x{:x}".format(ecsd[194]))
+    else:
+        print CSD_REVISION[CSD_rev]
+    if EXTCSD_REVISION.get(EXT_CSD_rev) is None:
+        print ("EXT_CSD Revision 0x{:x}".format(ecsd[192]))
+    else:
+        print EXTCSD_REVISION[EXT_CSD_rev]
+
 >>>>>>> origin/master
