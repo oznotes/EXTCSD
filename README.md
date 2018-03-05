@@ -4,7 +4,7 @@
 
 ------------
 
-#### extcsd.py
+#### Decoding using JEDEC's Datasheet.
 
 ------------
 
