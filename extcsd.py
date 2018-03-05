@@ -36,14 +36,42 @@ if __name__ == '__main__':
         {
             '0x0':  'Device not boot enabled (default)',
             '0x00': 'Device not boot enabled (default)',
+            '0x8': 'Boot 1 enabled ',
             '0x08': 'Boot 1 enabled ',
             '0x10': 'Boot 2 enabled ',
             '0x38': 'User Area enabled ',
             '0x40': 'Device Not Boot Enabled ',
             '0x48': 'Boot 1 with ACK enabled ',
-            '0x50': 'Boot 2 with ACK enabled ',
+            '0x50': 'Boot 2 with ACK enabled ', 
             '0x78': 'User Area with ACK enabled '
         }
+
+	"""
+	# 0x50 hex is bin 0-1-010-000
+	
+	Bit 7: Reserved
+	Bit 6: BOOT_ACK (R/W/E)
+	 0x0 : No boot acknowledge sent (default)
+	 0x1 : Boot acknowledge sent during boot operation Bit
+	Bit[5:3] : BOOT_PARTITION_ENABLE (R/W/E)
+ 	User selects boot data that will be sent to master
+	 0x0 : Device not boot enabled (default)
+	 0x1 : Boot partition 1 enabled for boot
+	 0x2 : Boot partition 2 enabled for boot
+	 0x3–0x6 : Reserved
+	 0x7 : User area enabled for boot
+	Bit[2:0] : PARTITION_ACCESS (before BOOT_PARTITION_ACCESS, R/W/E_P)
+ 	 User selects partitions to access
+	 0x0 : No access to boot partition (default)
+	 0x1 : R/W boot partition 1
+	 0x2 : R/W boot partition 2
+	 0x3 : R/W Replay Protected Memory Block (RPMB)
+	 0x4 : Access to General Purpose partition 1
+	 0x5 : Access to General Purpose partition 2
+	 0x6 : Access to General Purpose partition 3
+	 0x7 : Access to General Purpose partition 4
+
+	"""
 
     EXTCSD_REVISION = \
         {
@@ -109,7 +137,7 @@ if __name__ == '__main__':
         sys.exit()
     CSD_rev = "0x{:x}".format(ecsd[194])
     EXT_CSD_rev = "0x{:x}".format(ecsd[192])
-    partition_config = "0x{:x}".format(ecsd[179]) # 50 is 110010
+    partition_config = "0x{:x}".format(ecsd[179]) 
     boot_size = int(ecsd[226]) * 128  # BOOT_SIZE_MULT [226] Boot Partition size = 128K bytes * BOOT_SIZE_MULT
     rpmb_size = int(ecsd[168]) * 128  # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
     print "\n"
