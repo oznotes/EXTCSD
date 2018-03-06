@@ -23,7 +23,7 @@
 
 EXTCSD Decoder
 
-========================================
+========================================<br>
 Boot Partition Size : 4096 kB.<br>
 RPMB Size : 4096 kB.<br>
 Boot 2 with ACK enabled [0x50]<br>
