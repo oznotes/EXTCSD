@@ -21,11 +21,23 @@
 
 
 
-Boot Partition Size : 4096 KB <br>
-RPMB Size : 4096 KB <br>
-Boot 2 with ACK enabled <br>
-CSD version No. 1.2 <br>
+EXTCSD Decoder
+
+========================================
+Boot Partition Size : 4096 kB.<br>
+RPMB Size : 4096 kB.<br>
+Boot 2 with ACK enabled [0x50]<br>
+CSD version No. 1.2  <br>
 CSD Spec  : [ 4.1, 4.2, 4.3, 4.4, 4.41, 4.5, 4.51, 5.0, 5.01, 5.1 ] <br>
 Revision 1.7 (for MMC v5.0, v5.01) <br>
+GPP1 : 0 kB. GPP2 : 0 kB. GPP3 : 0 kB. GPP4 : 0 kB. <br>
+<br>
+SEC_FEATURE_SUPPORT_[231] :<br>
+ *Device supports the sanitize operation.<br>
+ *Device supports the secure and insecure trim operations.<br>
+ *Device supports the automatic erase operation on retired  <br>
+   defective portions of the array.<br>
+ *Secure purge operations are supported.<br>
+
 
 
