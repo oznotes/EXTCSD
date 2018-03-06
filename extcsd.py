@@ -88,24 +88,6 @@ if __name__ == '__main__':
     
     # add bus width
     # add bus config 
-    # Test GPP and Clean the formula 
-
-    GP_SIZE_MULT_GP0 - GP_SIZE_MULT_GP3 [154:143]
-    General_Purpose_Partition_X Size =
-    (GP_SIZE_MULT_X_2 * 2^16 + GP_SIZE_MULT_X_1 * 2^8 + GP_SIZE_MULT_X_0 * 2^0) 
-    * HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512 kBytes.
-    
-    GPP1 = [143:144:145]
-    GPP2 = [146:147:148]
-    GPP3 = [149:150:151]
-    GPP4 = [152:153:154]
-    
-    HC_WP_GRP_SIZE [221]
-    = 512KB * HC_ERASE_GRP_SIZE * HC_WP_GRP_SIZE.
-    
-    HC_ERASE_GRP_SIZE [224]
-    Erase Unit Size = 512 kBytes * HC_ERASE_GRP_SIZE
-    
     
     """
 
@@ -156,8 +138,8 @@ if __name__ == '__main__':
     GP4_SIZE_MULT_X_0 = int(ecsd[152])
     GP4_SIZE_MULT_X_1 = int(ecsd[153])
     GP4_SIZE_MULT_X_2 = int(ecsd[154])
-    HC_WP_GRP_SIZE_ECSD = "0x{:x}".format(ecsd[221])
-    HC_ERASE_GRP_SIZE_ECSD = "0x{:x}".format(ecsd[224])
+    HC_WP_GRP_SIZE_ECSD = int(ecsd[221])
+    HC_ERASE_GRP_SIZE_ECSD = int(ecsd[224])
     SEC_FEATURE_SUPPORT_ECSD = list(str(dec_to_bin(ecsd[231])))
     CSD_rev = "0x{:x}".format(ecsd[194])
     EXT_CSD_rev = "0x{:x}".format(ecsd[192])
@@ -168,16 +150,16 @@ if __name__ == '__main__':
     SECURE_ER_EN_K = SEC_FEATURE_SUPPORT_ECSD[6]
     boot_size = int(ecsd[226]) * 128  # BOOT_SIZE_MULT [226] Boot Partition size = 128K bytes * BOOT_SIZE_MULT
     rpmb_size = int(ecsd[168]) * 128  # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
-    HC_WP_GRP_SIZE = 512 * int(ecsd[224]) * int(ecsd[221])
-    HC_ERASE_GRP_SIZE = 512 * int(ecsd[224])
+    HC_WP_GRP_SIZE = 512 * int(ecsd[224]) * int(ecsd[221]) * 1024
+    HC_ERASE_GRP_SIZE = 512 * int(ecsd[224]) * 1024
     GPP1_SIZE = (GP1_SIZE_MULT_X_2 * 2**16 + GP1_SIZE_MULT_X_1 * 2**8 + GP1_SIZE_MULT_X_0 * 2**0) * \
-                HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512
+                HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
     GPP2_SIZE = (GP2_SIZE_MULT_X_2 * 2**16 + GP2_SIZE_MULT_X_1 * 2**8 + GP2_SIZE_MULT_X_0 * 2**0) * \
-                HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512
+                HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
     GPP3_SIZE = (GP3_SIZE_MULT_X_2 * 2**16 + GP3_SIZE_MULT_X_1 * 2**8 + GP3_SIZE_MULT_X_0 * 2**0) * \
-                HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512
+                HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
     GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0) * \
-                HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512
+                HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
 
     print "\n"
     print "EXTCSD Decoder\n"
@@ -207,5 +189,4 @@ if __name__ == '__main__':
     print SEC_FEATURE_SUPPORT_KEY['SEC_GB_CL_EN(R)']['0x' + SEC_GB_CL_EN_K]
     print SEC_FEATURE_SUPPORT_KEY['SEC_BD_BLK_EN(R)']['0x' + SEC_BD_BLK_EN_K]
     print SEC_FEATURE_SUPPORT_KEY['SECURE_ER_EN(R)']['0x' + SECURE_ER_EN_K]
-
 
