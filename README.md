@@ -33,11 +33,11 @@ Revision 1.7 (for MMC v5.0, v5.01) <br>
 GPP1 : 0 kB. GPP2 : 0 kB. GPP3 : 0 kB. GPP4 : 0 kB. <br>
 <br>
 SEC_FEATURE_SUPPORT_[231] :<br>
- *Device supports the sanitize operation.<br>
- *Device supports the secure and insecure trim operations.<br>
- *Device supports the automatic erase operation on retired  <br>
-   defective portions of the array.<br>
- *Secure purge operations are supported.<br>
+&nbsp; *Device supports the sanitize operation.<br>
+&nbsp; *Device supports the secure and insecure trim operations.<br>
+&nbsp; *Device supports the automatic erase operation on retired  <br>
+&nbsp;&nbsp;   defective portions of the array.<br>
+&nbsp; *Secure purge operations are supported.<br>
 
 
 
