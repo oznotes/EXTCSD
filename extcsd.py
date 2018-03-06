@@ -6,6 +6,16 @@ __author__ = "Oz"
 __copyright__ = "EXT CSD Decoder"
 __credits__ = ["https://gist.github.com/kylemanna/5692543"]
 
+
+"""
+TODO: 
+
+# add bus width
+# add bus config 
+
+"""
+
+
 def str2bytearray(s):
     if len(s) % 2:
         s = '0' + s
@@ -65,8 +75,9 @@ if __name__ == '__main__':
             '0x1': 'CSD version No. 1.1 [ Allocated by MMCA ] ',
             '0x0': 'CSD version No. 1.0 [ Allocated by MMCA ] '
         }
-    SEC_FEATURE_SUPPORT_KEY = {   # 0 1 2 3 4 5 6 SEC_FEATURE_SUPPORT_ECSD List
-                                  # 6 5 4 3 2 1 0 from JEDEC Manual
+    SEC_FEATURE_SUPPORT_KEY = \
+        {   # 0 1 2 3 4 5 6 SEC_FEATURE_SUPPORT_ECSD List
+            # 6 5 4 3 2 1 0 from JEDEC Manual
         'SEC_SANITIZE': {'0x1': ' *Device supports the sanitize operation.',  # 0 digit
                          '0x0': ' *Device does not support the sanitizeoperation.',
                          },
@@ -81,47 +92,65 @@ if __name__ == '__main__':
         'SECURE_ER_EN(R)': {'0x0': ' *Secure purge operations are not supported on the device.',  # 6 digit
                             '0x1': ' *Secure purge operations are supported.',
                             }
-                          }
-
-    """
-    TODO: 
-    
-    # add bus width
-    # add bus config 
-    
-    """
+        }
+    BOOT_BUS_CONDITIONS = \
+        { # BOOT_BUS_CONDITIONS [177]
+            # 0 1 2 |3 4 | 5 6 7 BOOT_BUS_CONDITIONS_ECSD List
+            # 7 6 5 |4 3 | 2 1 0 from JEDEC Manual
+            'BOOT_MODE':
+                {
+                    '0x0': 'Use single data rate + backward compatible timings in boot operation (default).',
+                    '0x1': 'Use single data rate + High Speed timings in boot operation mode.',
+                    '0x2': 'Use dual data rate in boot operation.',
+                    '0x3': 'Reserved  NOTE'
+                },
+            'RESET_BOOT_BUS_CONDITIONS':
+                {
+                    '0x0': 'Reset bus width to x1, single data rate and backward compatible \n'
+                            'timings after boot operation (default)',
+                    '0x1': 'Retain BOOT_BUS_WIDTH and BOOT_MODE values after boot operation. \n'
+                           'This is relevant to Push-pull mode operation only. '
+                },
+            'BOOT_BUS_WIDTH':
+                {
+                    '0x0' : 'x1 (sdr) or x4 (ddr) bus width in boot operation mode (default)',
+                    '0x1' : 'x4 (sdr/ddr) bus width in boot operation mode',
+                    '0x2' : 'x8 (sdr/ddr) bus width in boot operation mode',
+                    '0x3' : 'Reserved'
+                }
+        }
 
     if os.path.isfile("extcsd.bin") is True:
-        if os.path.getsize("extcsd.bin") > 512:
-            print "File size for extcsd.bin should be 512 bytes"
-            sys.exit()
-        else:
-            f = open("extcsd.bin", "rb")
-            file_contents = f.read()
-            f.close()
-            if is_not_empty(file_contents) is True:
-                ecsd_str = binascii.hexlify(''.join(reversed(file_contents)))
-                ecsd = str2bytearray(ecsd_str)
-                line_len = 16
-                i = 0
-                while i < len(ecsd):
-                    sys.stdout.write("{0:04x}:\t".format(i))
-                    for j in range(line_len):
-                        if i < len(ecsd):
-                            sys.stdout.write("{0:=02x}".format(ecsd[i]))
-                            i = i + 1
-                        else:
-                            break
-                        if j == (line_len - 1):
-                            pass
-                        elif i % 4:
-                            sys.stdout.write(" ")
-                        else:
-                            sys.stdout.write("   ")
-                    sys.stdout.write("\n")
-            else:
-                print "File is empty"
+            if os.path.getsize("extcsd.bin") > 512:
+                print "File size for extcsd.bin should be 512 bytes"
                 sys.exit()
+            else:
+                f = open("extcsd.bin", "rb")
+                file_contents = f.read()
+                f.close()
+                if is_not_empty(file_contents) is True:
+                    ecsd_str = binascii.hexlify(''.join(reversed(file_contents)))
+                    ecsd = str2bytearray(ecsd_str)
+                    line_len = 16
+                    i = 0
+                    while i < len(ecsd):
+                        sys.stdout.write("{0:04x}:\t".format(i))
+                        for j in range(line_len):
+                            if i < len(ecsd):
+                                sys.stdout.write("{0:=02x}".format(ecsd[i]))
+                                i = i + 1
+                            else:
+                                break
+                            if j == (line_len - 1):
+                                pass
+                            elif i % 4:
+                                sys.stdout.write(" ")
+                            else:
+                                sys.stdout.write("   ")
+                        sys.stdout.write("\n")
+                else:
+                    print "File is empty"
+                    sys.exit()
     else:
         print "File not found"
         sys.exit()
@@ -140,7 +169,10 @@ if __name__ == '__main__':
     GP4_SIZE_MULT_X_2 = int(ecsd[154])
     HC_WP_GRP_SIZE_ECSD = int(ecsd[221])
     HC_ERASE_GRP_SIZE_ECSD = int(ecsd[224])
+    # ecsd177  =  ('{:08d}'.format(ecsd[177]))
     SEC_FEATURE_SUPPORT_ECSD = list(str(dec_to_bin(ecsd[231])))
+    BOOT_BUS_CONDITIONS_ECSD = dec_to_bin(ecsd[177])
+    BOOT_BUS_CONDITIONS_ECSD = list(('{:08d}'.format(int(BOOT_BUS_CONDITIONS_ECSD))))
     CSD_rev = "0x{:x}".format(ecsd[194])
     EXT_CSD_rev = "0x{:x}".format(ecsd[192])
     partition_config = "0x{:x}".format(ecsd[179])
@@ -148,6 +180,8 @@ if __name__ == '__main__':
     SEC_GB_CL_EN_K = SEC_FEATURE_SUPPORT_ECSD[2]
     SEC_BD_BLK_EN_K = SEC_FEATURE_SUPPORT_ECSD[4]
     SECURE_ER_EN_K = SEC_FEATURE_SUPPORT_ECSD[6]
+    RESET_BOOT_BUS_CONDITIONS_K = BOOT_BUS_CONDITIONS_ECSD
+    BOOT_BUS_WIDTH_K = BOOT_BUS_CONDITIONS_ECSD
     boot_size = int(ecsd[226]) * 128  # BOOT_SIZE_MULT [226] Boot Partition size = 128K bytes * BOOT_SIZE_MULT
     rpmb_size = int(ecsd[168]) * 128  # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
     HC_WP_GRP_SIZE = 512 * int(ecsd[224]) * int(ecsd[221]) * 1024
@@ -160,7 +194,6 @@ if __name__ == '__main__':
                 HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
     GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0) * \
                 HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
-
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
