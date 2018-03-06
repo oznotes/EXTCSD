@@ -36,7 +36,7 @@ SEC_FEATURE_SUPPORT_[231] :<br>
 &nbsp; *Device supports the sanitize operation.<br>
 &nbsp; *Device supports the secure and insecure trim operations.<br>
 &nbsp; *Device supports the automatic erase operation on retired  <br>
-&nbsp;&nbsp;   defective portions of the array.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defective portions of the array.<br>
 &nbsp; *Secure purge operations are supported.<br>
 
 
