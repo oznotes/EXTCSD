@@ -67,19 +67,19 @@ if __name__ == '__main__':
         }
     SEC_FEATURE_SUPPORT_KEY = {   # 0 1 2 3 4 5 6 SEC_FEATURE_SUPPORT_ECSD List
                                   # 6 5 4 3 2 1 0 from JEDEC Manual
-        'SEC_SANITIZE': {'0x1': '  Device supports the sanitize operation ',  # 0 digit
-                         '0x0': '  Device does not support the sanitizeoperation.',
+        'SEC_SANITIZE': {'0x1': ' *Device supports the sanitize operation ',  # 0 digit
+                         '0x0': ' *Device does not support the sanitizeoperation.',
                          },
-        'SEC_GB_CL_EN(R)': {'0x0': '  Device does not support the secure and insecure trim operations',  # 2 digit
-                            '0x1': '  Device supports the secure and insecure trim operations.'
+        'SEC_GB_CL_EN(R)': {'0x0': ' *Device does not support the secure and insecure trim operations',  # 2 digit
+                            '0x1': ' *Device supports the secure and insecure trim operations.'
                             },
-        'SEC_BD_BLK_EN(R)': {'0x0': '  Device does not support the automatic erase operation \n'  # 4 digit 
-                                    '  on retired defective portions of the array.',
-                             '0x1': '  Device supports the automatic erase operation on retired \n'
-                                    '  defective portions of the array.',
+        'SEC_BD_BLK_EN(R)': {'0x0': ' *Device does not support the automatic erase operation \n'  # 4 digit 
+                                    ' *on retired defective portions of the array.',
+                             '0x1': ' *Device supports the automatic erase operation on retired \n'
+                                    ' *defective portions of the array.',
                              },
-        'SECURE_ER_EN(R)': {'0x0': '  Secure purge operations are not supported on the device',  # 6 digit
-                            '0x1': '  Secure purge operations are supported.',
+        'SECURE_ER_EN(R)': {'0x0': ' *Secure purge operations are not supported on the device',  # 6 digit
+                            '0x1': ' *Secure purge operations are supported.',
                             }
                           }
 
