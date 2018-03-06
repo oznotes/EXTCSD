@@ -6,6 +6,7 @@ __author__ = "Oz"
 __copyright__ = "EXT CSD Decoder"
 __credits__ = ["https://gist.github.com/kylemanna/5692543"]
 
+
 def str2bytearray(s):
     if len(s) % 2:
         s = '0' + s
@@ -21,8 +22,10 @@ def str2bytearray(s):
     out = bytearray(binascii.unhexlify(s))
     return out
 
+
 def dec_to_bin(x):
     return int(bin(x)[2:])
+
 
 def is_not_empty(s):  # if string is empty or not
     """
@@ -68,23 +71,31 @@ if __name__ == '__main__':
     SEC_FEATURE_SUPPORT_KEY = \
         {   # 0 1 2 3 4 5 6 SEC_FEATURE_SUPPORT_ECSD List
             # 6 5 4 3 2 1 0 from JEDEC Manual
-        'SEC_SANITIZE': {'0x1': ' *Device supports the sanitize operation.',  # 0 digit
-                         '0x0': ' *Device does not support the sanitizeoperation.',
-                         },
-        'SEC_GB_CL_EN(R)': {'0x0': ' *Device does not support the secure and insecure trim operations.',  # 2 digit
-                            '0x1': ' *Device supports the secure and insecure trim operations.'
-                            },
-        'SEC_BD_BLK_EN(R)': {'0x0': ' *Device does not support the automatic erase operation \n'  # 4 digit 
-                                    '   on retired defective portions of the array.',
-                             '0x1': ' *Device supports the automatic erase operation on retired \n'
-                                    '   defective portions of the array.',
-                             },
-        'SECURE_ER_EN(R)': {'0x0': ' *Secure purge operations are not supported on the device.',  # 6 digit
-                            '0x1': ' *Secure purge operations are supported.',
-                            }
+            'SEC_SANITIZE':
+                {
+                    '0x1': 'Device supports the sanitize operation.',  # 0 digit
+                    '0x0': 'Device does not support the sanitizeoperation.',
+                },
+            'SEC_GB_CL_EN(R)':
+                {
+                    '0x0': 'Device does not support the secure and insecure trim operations.',  # 2 digit
+                    '0x1': 'Device supports the secure and insecure trim operations.'
+                },
+            'SEC_BD_BLK_EN(R)':
+                {
+                    '0x0': 'Device does not support the automatic erase operation \n'   # 4 digit
+                           '\t  on retired defective portions of the array.',
+                    '0x1': 'Device supports the automatic erase operation on retired \n'
+                           '\t  defective portions of the array.',
+                },
+            'SECURE_ER_EN(R)':
+                {
+                    '0x0': 'Secure purge operations are not supported on the device.',  # 6 digit
+                    '0x1': 'Secure purge operations are supported.',
+                }
         }
     BOOT_BUS_CONDITIONS = \
-        { # BOOT_BUS_CONDITIONS [177]
+        {   # BOOT_BUS_CONDITIONS [177]
             # 0 1 2 |3 4 | 5 6 7 BOOT_BUS_CONDITIONS_ECSD List
             # 7 6 5 |4 3 | 2 1 0 from JEDEC Manual
             'BOOT_MODE':
@@ -96,17 +107,17 @@ if __name__ == '__main__':
                 },
             'RESET_BOOT_BUS_CONDITIONS':
                 {
-                    '0x0': 'Reset bus width to x1, single data rate and backward compatible \n'
-                            'timings after boot operation (default)',
+                    '0x0': 'Reset bus width to x1, single data rate and backward compatible \n '
+                           '\t timings after boot operation (default)',
                     '0x1': 'Retain BOOT_BUS_WIDTH and BOOT_MODE values after boot operation. \n'
                            'This is relevant to Push-pull mode operation only. '
                 },
             'BOOT_BUS_WIDTH':
                 {
-                    '0x0' : 'x1 (sdr) or x4 (ddr) bus width in boot operation mode (default)',
-                    '0x1' : 'x4 (sdr/ddr) bus width in boot operation mode',
-                    '0x2' : 'x8 (sdr/ddr) bus width in boot operation mode',
-                    '0x3' : 'Reserved'
+                    '0x0': 'X1 (sdr) or x4 (ddr) bus width in boot operation mode (default)',
+                    '0x1': 'X4 (sdr/ddr) bus width in boot operation mode',
+                    '0x2': 'X8 (sdr/ddr) bus width in boot operation mode',
+                    '0x3': 'Reserved'
                 }
         }
 
@@ -170,21 +181,22 @@ if __name__ == '__main__':
     SEC_GB_CL_EN_K = SEC_FEATURE_SUPPORT_ECSD[2]
     SEC_BD_BLK_EN_K = SEC_FEATURE_SUPPORT_ECSD[4]
     SECURE_ER_EN_K = SEC_FEATURE_SUPPORT_ECSD[6]
-    BOOT_MODE_K =  '0x' + str(int(BOOT_BUS_CONDITIONS_ECSD[3] + BOOT_BUS_CONDITIONS_ECSD[4],2))
+    BOOT_MODE_K = '0x' + str(int(BOOT_BUS_CONDITIONS_ECSD[3] + BOOT_BUS_CONDITIONS_ECSD[4], 2))
     RESET_BOOT_BUS_CONDITIONS_K = '0x' + str(int(BOOT_BUS_CONDITIONS_ECSD[5]))
-    BOOT_BUS_WIDTH_K =  '0x' + str(int(BOOT_BUS_CONDITIONS_ECSD[6] + BOOT_BUS_CONDITIONS_ECSD[7],2))
+    BOOT_BUS_WIDTH_K = '0x' + str(int(BOOT_BUS_CONDITIONS_ECSD[6] + BOOT_BUS_CONDITIONS_ECSD[7], 2))
     boot_size = int(ecsd[226]) * 128  # BOOT_SIZE_MULT [226] Boot Partition size = 128K bytes * BOOT_SIZE_MULT
     rpmb_size = int(ecsd[168]) * 128  # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
     HC_WP_GRP_SIZE = 512 * int(ecsd[224]) * int(ecsd[221]) * 1024
     HC_ERASE_GRP_SIZE = 512 * int(ecsd[224]) * 1024
-    GPP1_SIZE = (GP1_SIZE_MULT_X_2 * 2**16 + GP1_SIZE_MULT_X_1 * 2**8 + GP1_SIZE_MULT_X_0 * 2**0) * \
-                HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
-    GPP2_SIZE = (GP2_SIZE_MULT_X_2 * 2**16 + GP2_SIZE_MULT_X_1 * 2**8 + GP2_SIZE_MULT_X_0 * 2**0) * \
-                HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
-    GPP3_SIZE = (GP3_SIZE_MULT_X_2 * 2**16 + GP3_SIZE_MULT_X_1 * 2**8 + GP3_SIZE_MULT_X_0 * 2**0) * \
-                HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
-    GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0) * \
-                HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
+
+    GPP1_SIZE = (GP1_SIZE_MULT_X_2 * 2**16 + GP1_SIZE_MULT_X_1 * 2**8 + GP1_SIZE_MULT_X_0 * 2**0
+                 ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
+    GPP2_SIZE = (GP2_SIZE_MULT_X_2 * 2**16 + GP2_SIZE_MULT_X_1 * 2**8 + GP2_SIZE_MULT_X_0 * 2**0
+                 ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
+    GPP3_SIZE = (GP3_SIZE_MULT_X_2 * 2**16 + GP3_SIZE_MULT_X_1 * 2**8 + GP3_SIZE_MULT_X_0 * 2**0
+                 ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
+    GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0
+                 ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
 
     print "\n"
     print "EXTCSD Decoder\n"
@@ -208,12 +220,15 @@ if __name__ == '__main__':
           "GPP2 : " + str(GPP2_SIZE) + " kB. " + \
           "GPP3 : " + str(GPP3_SIZE) + " kB. " + \
           "GPP4 : " + str(GPP4_SIZE) + " kB. "
-    print "SEC_FEATURE_SUPPORT_[231] :"
-    print SEC_FEATURE_SUPPORT_KEY['SEC_SANITIZE']['0x' + SEC_SANITIZE_K]
-    print SEC_FEATURE_SUPPORT_KEY['SEC_GB_CL_EN(R)']['0x' + SEC_GB_CL_EN_K]
-    print SEC_FEATURE_SUPPORT_KEY['SEC_BD_BLK_EN(R)']['0x' + SEC_BD_BLK_EN_K]
-    print SEC_FEATURE_SUPPORT_KEY['SECURE_ER_EN(R)']['0x' + SECURE_ER_EN_K]
-    print 'BOOT MODE : ' + BOOT_BUS_CONDITIONS['BOOT_MODE'][BOOT_MODE_K]
-    print 'RST BOOT BUS Cond. : ' + BOOT_BUS_CONDITIONS['RESET_BOOT_BUS_CONDITIONS'][RESET_BOOT_BUS_CONDITIONS_K]
-    print 'BOOT BUS WIDTH : ' + BOOT_BUS_CONDITIONS['BOOT_BUS_WIDTH'][BOOT_BUS_WIDTH_K]
-
+    print "\n"
+    print "SEC_FEATURE_SUPPORT_[231] :\n"
+    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_SANITIZE']['0x' + SEC_SANITIZE_K]
+    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_GB_CL_EN(R)']['0x' + SEC_GB_CL_EN_K]
+    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_BD_BLK_EN(R)']['0x' + SEC_BD_BLK_EN_K]
+    print '\t' + SEC_FEATURE_SUPPORT_KEY['SECURE_ER_EN(R)']['0x' + SECURE_ER_EN_K]
+    print "\n"
+    print "BOOT_BUS_CONDITIONS_[177] :\n"
+    print '\t' + BOOT_BUS_CONDITIONS['BOOT_MODE'][BOOT_MODE_K]
+    print '\t' + BOOT_BUS_CONDITIONS['RESET_BOOT_BUS_CONDITIONS'][RESET_BOOT_BUS_CONDITIONS_K]
+    print '\t' + BOOT_BUS_CONDITIONS['BOOT_BUS_WIDTH'][BOOT_BUS_WIDTH_K]
+    print "\n"
