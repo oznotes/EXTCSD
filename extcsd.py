@@ -6,16 +6,6 @@ __author__ = "Oz"
 __copyright__ = "EXT CSD Decoder"
 __credits__ = ["https://gist.github.com/kylemanna/5692543"]
 
-
-"""
-TODO: 
-
-# add bus width
-# add bus config 
-
-"""
-
-
 def str2bytearray(s):
     if len(s) % 2:
         s = '0' + s
