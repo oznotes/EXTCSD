@@ -170,8 +170,9 @@ if __name__ == '__main__':
     SEC_GB_CL_EN_K = SEC_FEATURE_SUPPORT_ECSD[2]
     SEC_BD_BLK_EN_K = SEC_FEATURE_SUPPORT_ECSD[4]
     SECURE_ER_EN_K = SEC_FEATURE_SUPPORT_ECSD[6]
-    RESET_BOOT_BUS_CONDITIONS_K = BOOT_BUS_CONDITIONS_ECSD
-    BOOT_BUS_WIDTH_K = BOOT_BUS_CONDITIONS_ECSD
+    BOOT_MODE_K =  '0x' + str(int(BOOT_BUS_CONDITIONS_ECSD[3] + BOOT_BUS_CONDITIONS_ECSD[4],2))
+    RESET_BOOT_BUS_CONDITIONS_K = '0x' + str(int(BOOT_BUS_CONDITIONS_ECSD[5]))
+    BOOT_BUS_WIDTH_K =  '0x' + str(int(BOOT_BUS_CONDITIONS_ECSD[6] + BOOT_BUS_CONDITIONS_ECSD[6],2))
     boot_size = int(ecsd[226]) * 128  # BOOT_SIZE_MULT [226] Boot Partition size = 128K bytes * BOOT_SIZE_MULT
     rpmb_size = int(ecsd[168]) * 128  # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
     HC_WP_GRP_SIZE = 512 * int(ecsd[224]) * int(ecsd[221]) * 1024
@@ -184,12 +185,13 @@ if __name__ == '__main__':
                 HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
     GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0) * \
                 HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
+
+    print BOOT_BUS_WIDTH_K
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
     print "Boot Partition Size : " + str(boot_size) + " kB."
     print "RPMB Size : " + str(rpmb_size) + " kB."
-
     if PARTITION_CONFIG_KEY.get(partition_config) is None:
         print ("Partition Config 0x{:x}".format(ecsd[179]))
     else:
@@ -212,4 +214,7 @@ if __name__ == '__main__':
     print SEC_FEATURE_SUPPORT_KEY['SEC_GB_CL_EN(R)']['0x' + SEC_GB_CL_EN_K]
     print SEC_FEATURE_SUPPORT_KEY['SEC_BD_BLK_EN(R)']['0x' + SEC_BD_BLK_EN_K]
     print SEC_FEATURE_SUPPORT_KEY['SECURE_ER_EN(R)']['0x' + SECURE_ER_EN_K]
+    print 'BOOT MODE : ' + BOOT_BUS_CONDITIONS['BOOT_MODE'][BOOT_MODE_K]
+    print 'RST BOOT BUS Cond. : ' + BOOT_BUS_CONDITIONS['RESET_BOOT_BUS_CONDITIONS'][RESET_BOOT_BUS_CONDITIONS_K]
+    print 'BOOT BUS WIDTH : ' + BOOT_BUS_CONDITIONS['BOOT_BUS_WIDTH'][BOOT_BUS_WIDTH_K]
 
