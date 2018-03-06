@@ -35,7 +35,7 @@ GPP1 : 16384 kB. GPP2 : 0 kB. GPP3 : 0 kB. GPP4 : 0 kB. <br>
 SEC_FEATURE_SUPPORT_[231] :<br>
 <br>
 &nbsp;&nbsp;Device supports the sanitize operation.<br>
-&nbsp;&nbsp;;Device supports the secure and insecure trim operations.<br>
+&nbsp;&nbsp;Device supports the secure and insecure trim operations.<br>
 &nbsp;&nbsp;Device supports the automatic erase operation on retired <br>
 &nbsp;&nbsp;&nbsp;&nbsp;defective portions of the array.<br>
 &nbsp;&nbsp;Secure purge operations are supported.<br>
