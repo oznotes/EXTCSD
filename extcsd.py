@@ -21,6 +21,8 @@ def str2bytearray(s):
     out = bytearray(binascii.unhexlify(s))
     return out
 
+def dec_to_bin(x):
+    return int(bin(x)[2:])
 
 def is_not_empty(s):  # if string is empty or not
     """
@@ -63,6 +65,23 @@ if __name__ == '__main__':
             '0x1': 'CSD version No. 1.1 [ Allocated by MMCA ] ',
             '0x0': 'CSD version No. 1.0 [ Allocated by MMCA ] '
         }
+    SEC_FEATURE_SUPPORT_KEY = {   # 0 1 2 3 4 5 6 SEC_FEATURE_SUPPORT_ECSD List
+                                  # 6 5 4 3 2 1 0 from JEDEC Manual
+        'SEC_SANITIZE': {'0x1': '  Device supports the sanitize operation ',  # 0 digit
+                         '0x0': '  Device does not support the sanitizeoperation.',
+                         },
+        'SEC_GB_CL_EN(R)': {'0x0': '  Device does not support the secure and insecure trim operations',  # 2 digit
+                            '0x1': '  Device supports the secure and insecure trim operations.'
+                            },
+        'SEC_BD_BLK_EN(R)': {'0x0': '  Device does not support the automatic erase operation \n'  # 4 digit 
+                                    '  on retired defective portions of the array.',
+                             '0x1': '  Device supports the automatic erase operation on retired \n'
+                                    '  defective portions of the array.',
+                             },
+        'SECURE_ER_EN(R)': {'0x0': '  Secure purge operations are not supported on the device',  # 6 digit
+                            '0x1': '  Secure purge operations are supported.',
+                            }
+                          }
 
     """
     TODO: 
@@ -139,9 +158,14 @@ if __name__ == '__main__':
     GP4_SIZE_MULT_X_2 = int(ecsd[154])
     HC_WP_GRP_SIZE_ECSD = "0x{:x}".format(ecsd[221])
     HC_ERASE_GRP_SIZE_ECSD = "0x{:x}".format(ecsd[224])
+    SEC_FEATURE_SUPPORT_ECSD = list(str(dec_to_bin(ecsd[231])))
     CSD_rev = "0x{:x}".format(ecsd[194])
     EXT_CSD_rev = "0x{:x}".format(ecsd[192])
     partition_config = "0x{:x}".format(ecsd[179])
+    SEC_SANITIZE_K = SEC_FEATURE_SUPPORT_ECSD[0]
+    SEC_GB_CL_EN_K = SEC_FEATURE_SUPPORT_ECSD[2]
+    SEC_BD_BLK_EN_K = SEC_FEATURE_SUPPORT_ECSD[4]
+    SECURE_ER_EN_K = SEC_FEATURE_SUPPORT_ECSD[6]
     boot_size = int(ecsd[226]) * 128  # BOOT_SIZE_MULT [226] Boot Partition size = 128K bytes * BOOT_SIZE_MULT
     rpmb_size = int(ecsd[168]) * 128  # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
     HC_WP_GRP_SIZE = 512 * int(ecsd[224]) * int(ecsd[221])
@@ -154,6 +178,8 @@ if __name__ == '__main__':
                 HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512
     GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0) * \
                 HC_WP_GRP_SIZE * HC_ERASE_GRP_SIZE * 512
+
+
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
@@ -177,4 +203,10 @@ if __name__ == '__main__':
           "GPP2 : " + str(GPP2_SIZE) + " kB. " + \
           "GPP3 : " + str(GPP3_SIZE) + " kB. " + \
           "GPP4 : " + str(GPP4_SIZE) + " kB. "
+    print "SEC_FEATURE_SUPPORT_[231] :"
+    print SEC_FEATURE_SUPPORT_KEY['SEC_SANITIZE']['0x' + SEC_SANITIZE_K]
+    print SEC_FEATURE_SUPPORT_KEY['SEC_GB_CL_EN(R)']['0x' + SEC_GB_CL_EN_K]
+    print SEC_FEATURE_SUPPORT_KEY['SEC_BD_BLK_EN(R)']['0x' + SEC_BD_BLK_EN_K]
+    print SEC_FEATURE_SUPPORT_KEY['SECURE_ER_EN(R)']['0x' + SECURE_ER_EN_K]
+
 
