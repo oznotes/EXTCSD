@@ -13,11 +13,11 @@ def str2bytearray(s):
     reorder = True
     if reorder:
         r = []
-        i = 1
-        while i <= len(s):
-            r.append(s[len(s) - i - 1])
-            r.append(s[len(s) - i])
-            i += 2
+        a = 1
+        while a <= len(s):
+            r.append(s[len(s) - a - 1])
+            r.append(s[len(s) - a])
+            a += 2
         s = ''.join(r)
     out = bytearray(binascii.unhexlify(s))
     return out
@@ -155,7 +155,7 @@ if __name__ == '__main__':
     else:
         print "File not found"
         sys.exit()
-
+    # GPP Formula Multipliers.
     GP1_SIZE_MULT_X_0 = int(ecsd[143])
     GP1_SIZE_MULT_X_1 = int(ecsd[144])
     GP1_SIZE_MULT_X_2 = int(ecsd[145])
@@ -188,7 +188,7 @@ if __name__ == '__main__':
     rpmb_size = int(ecsd[168]) * 128  # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
     HC_WP_GRP_SIZE = 512 * int(ecsd[224]) * int(ecsd[221]) * 1024
     HC_ERASE_GRP_SIZE = 512 * int(ecsd[224]) * 1024
-
+    # GPP Partition formula applied.
     GPP1_SIZE = (GP1_SIZE_MULT_X_2 * 2**16 + GP1_SIZE_MULT_X_1 * 2**8 + GP1_SIZE_MULT_X_0 * 2**0
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
     GPP2_SIZE = (GP2_SIZE_MULT_X_2 * 2**16 + GP2_SIZE_MULT_X_1 * 2**8 + GP2_SIZE_MULT_X_0 * 2**0
@@ -197,7 +197,6 @@ if __name__ == '__main__':
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
     GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
-
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
@@ -215,20 +214,20 @@ if __name__ == '__main__':
         print ("EXT_CSD Revision 0x{:x}".format(ecsd[192]))
     else:
         print EXTCSD_REVISION[EXT_CSD_rev]
-
     print "GPP1 : " + str(GPP1_SIZE) + " kB. " + \
           "GPP2 : " + str(GPP2_SIZE) + " kB. " + \
           "GPP3 : " + str(GPP3_SIZE) + " kB. " + \
           "GPP4 : " + str(GPP4_SIZE) + " kB. "
-    print "\n"
-    print "SEC_FEATURE_SUPPORT_[231] :\n"
+    print " "
+    print "SEC_FEATURE_SUPPORT_[231] :"
     print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_SANITIZE']['0x' + SEC_SANITIZE_K]
     print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_GB_CL_EN(R)']['0x' + SEC_GB_CL_EN_K]
     print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_BD_BLK_EN(R)']['0x' + SEC_BD_BLK_EN_K]
     print '\t' + SEC_FEATURE_SUPPORT_KEY['SECURE_ER_EN(R)']['0x' + SECURE_ER_EN_K]
-    print "\n"
-    print "BOOT_BUS_CONDITIONS_[177] :\n"
+    print " "
+    print "BOOT_BUS_CONDITIONS_[177] :"
     print '\t' + BOOT_BUS_CONDITIONS['BOOT_MODE'][BOOT_MODE_K]
     print '\t' + BOOT_BUS_CONDITIONS['RESET_BOOT_BUS_CONDITIONS'][RESET_BOOT_BUS_CONDITIONS_K]
     print '\t' + BOOT_BUS_CONDITIONS['BOOT_BUS_WIDTH'][BOOT_BUS_WIDTH_K]
     print "\n"
+
