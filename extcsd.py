@@ -69,7 +69,7 @@ if __name__ == '__main__':
             '0x0': 'CSD version No. 1.0 [ Allocated by MMCA ] '
         }
     PARTITIONING_SUPPORT = \
-        {   # PARTITIONING_SUPPORT [177]
+        {   # PARTITIONING_SUPPORT [160]
             # 7 6 5 |4 3 | 2 1 0 from JEDEC Manual [ 7 6 5 4 3 ] = Reserved
             # 2 = EXT_ATTRIBUTE_EN
             # 1 = ENH_ATTRIBUTE_EN
@@ -264,7 +264,7 @@ if __name__ == '__main__':
     print '\t' + BOOT_BUS_CONDITIONS['RESET_BOOT_BUS_CONDITIONS'][RESET_BOOT_BUS_CONDITIONS_K]
     print '\t' + BOOT_BUS_CONDITIONS['BOOT_BUS_WIDTH'][BOOT_BUS_WIDTH_K]
     print " "
-    print "PARTITIONING_SUPPORT [177] :"
+    print "PARTITIONING_SUPPORT [160] :"
     print '\t' + PARTITIONING_SUPPORT['EXT_ATTRIBUTE_EN'][EXT_ATTRIBUTE_EN_KEY]
     print '\t' + PARTITIONING_SUPPORT['ENH_ATTRIBUTE_EN'][ENH_ATTRIBUTE_EN_KEY]
     print '\t' + PARTITIONING_SUPPORT['PARTITIONING_EN'][PARTITIONING_EN_KEY]
