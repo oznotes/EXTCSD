@@ -69,7 +69,7 @@ if __name__ == '__main__':
             '0x0': 'CSD version No. 1.0 [ Allocated by MMCA ] '
         }
     PARTITIONING_SUPPORT = \
-        {   # PARTITIONING_SUPPORT [160]
+        {   # PARTITIONING_SUPPORT [177]
             # 7 6 5 |4 3 | 2 1 0 from JEDEC Manual [ 7 6 5 4 3 ] = Reserved
             # 2 = EXT_ATTRIBUTE_EN
             # 1 = ENH_ATTRIBUTE_EN
@@ -115,6 +115,14 @@ if __name__ == '__main__':
                     '0x0': 'Secure purge operations are not supported on the device.',  # 6 digit
                     '0x1': 'Secure purge operations are supported.'
                 }
+        }
+    PRE_EOL_INFO = \
+        {   # PRE_EOL_INFO [267]
+            # This field provides indication about device life time reflected by average reserved blocks.
+            '0x00': 'Not Defined',
+            '0x01': 'Normal : Normal',
+            '0x02': 'Warning :Consumed 80 % of reserved block',
+            '0x03': 'Urgent'
         }
     BOOT_BUS_CONDITIONS = \
         {   # BOOT_BUS_CONDITIONS [177]
@@ -260,5 +268,8 @@ if __name__ == '__main__':
     print '\t' + PARTITIONING_SUPPORT['EXT_ATTRIBUTE_EN'][EXT_ATTRIBUTE_EN_KEY]
     print '\t' + PARTITIONING_SUPPORT['ENH_ATTRIBUTE_EN'][ENH_ATTRIBUTE_EN_KEY]
     print '\t' + PARTITIONING_SUPPORT['PARTITIONING_EN'][PARTITIONING_EN_KEY]
-    print "\n"
+    print " "
+    print "PRE_EOL_INFO [267] :"
+    print '\tSTATUS = ' + PRE_EOL_INFO['0x'+str('{:02d}'.format(ecsd[267]))]
+
 
