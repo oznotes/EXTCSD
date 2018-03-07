@@ -64,9 +64,27 @@ if __name__ == '__main__':
     CSD_REVISION = \
         {
             '0x2': 'CSD version No. 1.2  \n' +
-            'CSD Spec  : [ 4.1, 4.2, 4.3, 4.4, 4.41, 4.5, 4.51, 5.0, 5.01, 5.1 ] ',
+                   'CSD Spec  : [ 4.1, 4.2, 4.3, 4.4, 4.41, 4.5, 4.51, 5.0, 5.01, 5.1 ] ',
             '0x1': 'CSD version No. 1.1 [ Allocated by MMCA ] ',
             '0x0': 'CSD version No. 1.0 [ Allocated by MMCA ] '
+        }
+    PARTITIONING_SUPPORT = \
+        {
+            'EXT_ATTRIBUTE_EN':
+                {
+                    '0x0': 'n/a.',
+                    '0x1': 'Device can have extended partitions attribute'
+                },
+            'ENH_ATTRIBUTE_EN':
+                {
+                    '0x0': 'Device obsolete',
+                    '0x1': 'Device can have enhanced technological features in partitions and user data area'
+                },
+            'PARTITIONING_EN':
+                {
+                    '0x0': 'Device obsolete',
+                    '0x1': 'Device supports partitioning features '
+                }
         }
     SEC_FEATURE_SUPPORT_KEY = \
         {   # 0 1 2 3 4 5 6 SEC_FEATURE_SUPPORT_ECSD List
@@ -74,7 +92,7 @@ if __name__ == '__main__':
             'SEC_SANITIZE':
                 {
                     '0x1': 'Device supports the sanitize operation.',  # 0 digit
-                    '0x0': 'Device does not support the sanitizeoperation.',
+                    '0x0': 'Device does not support the sanitizeoperation.'
                 },
             'SEC_GB_CL_EN(R)':
                 {
@@ -86,12 +104,12 @@ if __name__ == '__main__':
                     '0x0': 'Device does not support the automatic erase operation \n'   # 4 digit
                            '\t  on retired defective portions of the array.',
                     '0x1': 'Device supports the automatic erase operation on retired \n'
-                           '\t  defective portions of the array.',
+                           '\t  defective portions of the array.'
                 },
             'SECURE_ER_EN(R)':
                 {
                     '0x0': 'Secure purge operations are not supported on the device.',  # 6 digit
-                    '0x1': 'Secure purge operations are supported.',
+                    '0x1': 'Secure purge operations are supported.'
                 }
         }
     BOOT_BUS_CONDITIONS = \
@@ -122,36 +140,36 @@ if __name__ == '__main__':
         }
 
     if os.path.isfile("extcsd.bin") is True:
-            if os.path.getsize("extcsd.bin") > 512:
-                print "File size for extcsd.bin should be 512 bytes"
-                sys.exit()
+        if os.path.getsize("extcsd.bin") > 512:
+            print "File size for extcsd.bin should be 512 bytes"
+            sys.exit()
+        else:
+            f = open("extcsd.bin", "rb")
+            file_contents = f.read()
+            f.close()
+            if is_not_empty(file_contents) is True:
+                ecsd_str = binascii.hexlify(''.join(reversed(file_contents)))
+                ecsd = str2bytearray(ecsd_str)
+                line_len = 16
+                i = 0
+                while i < len(ecsd):
+                    sys.stdout.write("{0:04x}:\t".format(i))
+                    for j in range(line_len):
+                        if i < len(ecsd):
+                            sys.stdout.write("{0:=02x}".format(ecsd[i]))
+                            i = i + 1
+                        else:
+                            break
+                        if j == (line_len - 1):
+                            pass
+                        elif i % 4:
+                            sys.stdout.write(" ")
+                        else:
+                            sys.stdout.write("   ")
+                    sys.stdout.write("\n")
             else:
-                f = open("extcsd.bin", "rb")
-                file_contents = f.read()
-                f.close()
-                if is_not_empty(file_contents) is True:
-                    ecsd_str = binascii.hexlify(''.join(reversed(file_contents)))
-                    ecsd = str2bytearray(ecsd_str)
-                    line_len = 16
-                    i = 0
-                    while i < len(ecsd):
-                        sys.stdout.write("{0:04x}:\t".format(i))
-                        for j in range(line_len):
-                            if i < len(ecsd):
-                                sys.stdout.write("{0:=02x}".format(ecsd[i]))
-                                i = i + 1
-                            else:
-                                break
-                            if j == (line_len - 1):
-                                pass
-                            elif i % 4:
-                                sys.stdout.write(" ")
-                            else:
-                                sys.stdout.write("   ")
-                        sys.stdout.write("\n")
-                else:
-                    print "File is empty"
-                    sys.exit()
+                print "File is empty"
+                sys.exit()
     else:
         print "File not found"
         sys.exit()
@@ -168,6 +186,7 @@ if __name__ == '__main__':
     GP4_SIZE_MULT_X_0 = int(ecsd[152])
     GP4_SIZE_MULT_X_1 = int(ecsd[153])
     GP4_SIZE_MULT_X_2 = int(ecsd[154])
+    PARTITIONING_SUPPORT= int(ecsd[160])
     HC_WP_GRP_SIZE_ECSD = int(ecsd[221])
     HC_ERASE_GRP_SIZE_ECSD = int(ecsd[224])
     # ecsd177  =  ('{:08d}'.format(ecsd[177]))
