@@ -69,7 +69,11 @@ if __name__ == '__main__':
             '0x0': 'CSD version No. 1.0 [ Allocated by MMCA ] '
         }
     PARTITIONING_SUPPORT = \
-        {
+        {   # PARTITIONING_SUPPORT [177]
+            # 7 6 5 |4 3 | 2 1 0 from JEDEC Manual [ 7 6 5 4 3 ] = Reserved
+            # 2 = EXT_ATTRIBUTE_EN
+            # 1 = ENH_ATTRIBUTE_EN
+            # 0 = PARTITIONING_EN
             'EXT_ATTRIBUTE_EN':
                 {
                     '0x0': 'n/a.',
@@ -88,7 +92,7 @@ if __name__ == '__main__':
         }
     SEC_FEATURE_SUPPORT_KEY = \
         {   # 0 1 2 3 4 5 6 SEC_FEATURE_SUPPORT_ECSD List
-            # 6 5 4 3 2 1 0 from JEDEC Manual
+            # 7 6 5 4 3 2 1 0 from JEDEC Manual
             'SEC_SANITIZE':
                 {
                     '0x1': 'Device supports the sanitize operation.',  # 0 digit
@@ -186,20 +190,22 @@ if __name__ == '__main__':
     GP4_SIZE_MULT_X_0 = int(ecsd[152])
     GP4_SIZE_MULT_X_1 = int(ecsd[153])
     GP4_SIZE_MULT_X_2 = int(ecsd[154])
-    PARTITIONING_SUPPORT= int(ecsd[160])
+    PARTITIONING_SUPPORT_KEY = list(reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[160]))))))))
+    EXT_ATTRIBUTE_EN_KEY = '0x' + PARTITIONING_SUPPORT_KEY[2]
+    ENH_ATTRIBUTE_EN_KEY = '0x' + PARTITIONING_SUPPORT_KEY[1]
+    PARTITIONING_EN_KEY = '0x' + PARTITIONING_SUPPORT_KEY[0]
     HC_WP_GRP_SIZE_ECSD = int(ecsd[221])
     HC_ERASE_GRP_SIZE_ECSD = int(ecsd[224])
     # ecsd177  =  ('{:08d}'.format(ecsd[177]))
     SEC_FEATURE_SUPPORT_ECSD = list(str(dec_to_bin(ecsd[231])))
-    BOOT_BUS_CONDITIONS_ECSD = dec_to_bin(ecsd[177])
-    BOOT_BUS_CONDITIONS_ECSD = list(('{:08d}'.format(int(BOOT_BUS_CONDITIONS_ECSD))))
+    BOOT_BUS_CONDITIONS_ECSD = list(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[177])))))))
     CSD_rev = "0x{:x}".format(ecsd[194])
     EXT_CSD_rev = "0x{:x}".format(ecsd[192])
     partition_config = "0x{:x}".format(ecsd[179])
-    SEC_SANITIZE_K = SEC_FEATURE_SUPPORT_ECSD[0]
-    SEC_GB_CL_EN_K = SEC_FEATURE_SUPPORT_ECSD[2]
-    SEC_BD_BLK_EN_K = SEC_FEATURE_SUPPORT_ECSD[4]
-    SECURE_ER_EN_K = SEC_FEATURE_SUPPORT_ECSD[6]
+    SEC_SANITIZE_K = '0x' + SEC_FEATURE_SUPPORT_ECSD[0]
+    SEC_GB_CL_EN_K = '0x' + SEC_FEATURE_SUPPORT_ECSD[2]
+    SEC_BD_BLK_EN_K = '0x' + SEC_FEATURE_SUPPORT_ECSD[4]
+    SECURE_ER_EN_K = '0x' + SEC_FEATURE_SUPPORT_ECSD[6]
     BOOT_MODE_K = '0x' + str(int(BOOT_BUS_CONDITIONS_ECSD[3] + BOOT_BUS_CONDITIONS_ECSD[4], 2))
     RESET_BOOT_BUS_CONDITIONS_K = '0x' + str(int(BOOT_BUS_CONDITIONS_ECSD[5]))
     BOOT_BUS_WIDTH_K = '0x' + str(int(BOOT_BUS_CONDITIONS_ECSD[6] + BOOT_BUS_CONDITIONS_ECSD[7], 2))
@@ -216,6 +222,7 @@ if __name__ == '__main__':
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
     GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
+    print PARTITIONING_SUPPORT_KEY
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
@@ -239,14 +246,19 @@ if __name__ == '__main__':
           "GPP4 : " + str(GPP4_SIZE) + " kB. "
     print " "
     print "SEC_FEATURE_SUPPORT_[231] :"
-    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_SANITIZE']['0x' + SEC_SANITIZE_K]
-    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_GB_CL_EN(R)']['0x' + SEC_GB_CL_EN_K]
-    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_BD_BLK_EN(R)']['0x' + SEC_BD_BLK_EN_K]
-    print '\t' + SEC_FEATURE_SUPPORT_KEY['SECURE_ER_EN(R)']['0x' + SECURE_ER_EN_K]
+    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_SANITIZE'][SEC_SANITIZE_K]
+    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_GB_CL_EN(R)'][SEC_GB_CL_EN_K]
+    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_BD_BLK_EN(R)'][SEC_BD_BLK_EN_K]
+    print '\t' + SEC_FEATURE_SUPPORT_KEY['SECURE_ER_EN(R)'][SECURE_ER_EN_K]
     print " "
     print "BOOT_BUS_CONDITIONS_[177] :"
     print '\t' + BOOT_BUS_CONDITIONS['BOOT_MODE'][BOOT_MODE_K]
     print '\t' + BOOT_BUS_CONDITIONS['RESET_BOOT_BUS_CONDITIONS'][RESET_BOOT_BUS_CONDITIONS_K]
     print '\t' + BOOT_BUS_CONDITIONS['BOOT_BUS_WIDTH'][BOOT_BUS_WIDTH_K]
+    print " "
+    print "PARTITIONING_SUPPORT [177] :"
+    print '\t' + PARTITIONING_SUPPORT['EXT_ATTRIBUTE_EN'][EXT_ATTRIBUTE_EN_KEY]
+    print '\t' + PARTITIONING_SUPPORT['ENH_ATTRIBUTE_EN'][ENH_ATTRIBUTE_EN_KEY]
+    print '\t' + PARTITIONING_SUPPORT['PARTITIONING_EN'][PARTITIONING_EN_KEY]
     print "\n"
 
