@@ -47,6 +47,7 @@ BOOT_BUS_CONDITIONS_[177] :<br>
 &nbsp;&nbsp;Reset bus width to x1, single data rate and backward compatible <br>
 &nbsp;&nbsp;&nbsp;&nbsp;timings after boot operation (default)<br>
 &nbsp;&nbsp;X1 (sdr) or x4 (ddr) bus width in boot operation mode (default)<br>
+<br>
 PARTITIONING_SUPPORT [177] :<br>
 &nbsp;&nbsp;	Device can have extended partitions attribute<br>
 &nbsp;&nbsp;	Device can have enhanced technological features in partitions and user data area<br>
