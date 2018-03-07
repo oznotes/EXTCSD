@@ -69,7 +69,7 @@ if __name__ == '__main__':
             '0x0': 'CSD version No. 1.0 [ Allocated by MMCA ] '
         }
     PARTITIONING_SUPPORT = \
-        {   # PARTITIONING_SUPPORT [177]
+        {   # PARTITIONING_SUPPORT [160]
             # 7 6 5 |4 3 | 2 1 0 from JEDEC Manual [ 7 6 5 4 3 ] = Reserved
             # 2 = EXT_ATTRIBUTE_EN
             # 1 = ENH_ATTRIBUTE_EN
