@@ -33,7 +33,6 @@ GPP1 : 16384 kB. GPP2 : 0 kB. GPP3 : 0 kB. GPP4 : 0 kB. <br>
 <br>
 <br>
 SEC_FEATURE_SUPPORT_[231] :<br>
-<br>
 &nbsp;&nbsp;Device supports the sanitize operation.<br>
 &nbsp;&nbsp;Device supports the secure and insecure trim operations.<br>
 &nbsp;&nbsp;Device supports the automatic erase operation on retired <br>
@@ -42,7 +41,6 @@ SEC_FEATURE_SUPPORT_[231] :<br>
 &nbsp;&nbsp;&nbsp;&nbsp;
 <br>
 BOOT_BUS_CONDITIONS_[177] :<br>
-<br>
 &nbsp;&nbsp;Use single data rate + backward compatible timings in boot operation (default).<br>
 &nbsp;&nbsp;Reset bus width to x1, single data rate and backward compatible <br>
 &nbsp;&nbsp;&nbsp;&nbsp;timings after boot operation (default)<br>
