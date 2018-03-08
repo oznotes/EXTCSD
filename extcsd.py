@@ -124,6 +124,26 @@ if __name__ == '__main__':
             '0x02': 'Warning :Consumed 80 % of reserved block',
             '0x03': 'Urgent'
         }
+
+    BOOT_INFO = \
+        {   # BOOT_INFO [228]
+            'HS_BOOT_MODE':
+                {
+                    '0': 'Device does not support high speed timing during boot.',
+                    '1': 'Device supports high speed timing during boot.'
+                },
+            'DDR_BOOT_MODE':
+                {
+                    '0': 'Device does not support dual data rate during boot.',
+                    '1': 'Device supports dual data rate during boot.'
+                },
+            'ALT_BOOT_MODE':
+                {
+                    '0': 'Device does not support alternative boot method (obsolete)',
+                    '1': 'Device supports alternative boot method. \n'  
+                         '\t [+] Device must show [1] since this is mandatory in v4.4 standard'
+                }
+            }
     BOOT_BUS_CONDITIONS = \
         {   # BOOT_BUS_CONDITIONS [177]
             # 0 1 2 |3 4 | 5 6 7 BOOT_BUS_CONDITIONS_ECSD List
@@ -212,6 +232,7 @@ if __name__ == '__main__':
     CSD_rev = "0x{:x}".format(ecsd[194])
     EXT_CSD_rev = "0x{:x}".format(ecsd[192])
     partition_config = "0x{:x}".format(ecsd[179])
+    BOOT_INFO_K = list(reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[228]))))))))
     SEC_SANITIZE_K = '0x' + SEC_FEATURE_SUPPORT_ECSD[0]
     SEC_GB_CL_EN_K = '0x' + SEC_FEATURE_SUPPORT_ECSD[2]
     SEC_BD_BLK_EN_K = '0x' + SEC_FEATURE_SUPPORT_ECSD[4]
@@ -232,6 +253,7 @@ if __name__ == '__main__':
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
     GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
+    print BOOT_INFO_K
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
@@ -273,3 +295,9 @@ if __name__ == '__main__':
     print " "
     print "PRE_EOL_INFO [267] :"
     print '\tSTATUS = ' + PRE_EOL_INFO['0x'+str('{:02d}'.format(ecsd[267]))]
+    print " "
+    print "BOOT_INFO [228] :"
+    print '\t' + BOOT_INFO['HS_BOOT_MODE'][BOOT_INFO_K[2]]
+    print '\t' + BOOT_INFO['DDR_BOOT_MODE'][BOOT_INFO_K[1]]
+    print '\t' + BOOT_INFO['ALT_BOOT_MODE'][BOOT_INFO_K[0]]
+
