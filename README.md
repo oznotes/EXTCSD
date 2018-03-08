@@ -23,6 +23,7 @@
 EXTCSD Decoder
 
 ========================================<br>
+Device density : 14,910 MB.<br>
 Boot Partition Size : 4096 kB.<br>
 RPMB Size : 4096 kB.<br>
 Boot 2 with ACK enabled [0x50]<br>
@@ -52,6 +53,10 @@ PARTITIONING_SUPPORT [160] :<br>
  <br>
 PRE_EOL_INFO [267] :<br>
 &nbsp;&nbsp;	STATUS = Normal : Normal<br>
-
-
+<br>
+BOOT_INFO [228] :<br>
+&nbsp;&nbsp;	Device supports high speed timing during boot.<br>
+&nbsp;&nbsp;	Device supports dual data rate during boot.<br>
+&nbsp;&nbsp;	Device supports alternative boot method. <br>
+&nbsp;&nbsp;&nbsp;	 [+] Device must show [1] since this is mandatory in v4.4 standard<br>
 
