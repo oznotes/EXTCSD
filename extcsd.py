@@ -235,6 +235,7 @@ if __name__ == '__main__':
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
+    print 'Device density : ' + "{:,}".format(SEC_COUNT/1024/1024) + ' MB.'
     print "Boot Partition Size : " + str(boot_size) + " kB."
     print "RPMB Size : " + str(rpmb_size) + " kB."
     if PARTITION_CONFIG_KEY.get(partition_config) is None:
@@ -249,7 +250,6 @@ if __name__ == '__main__':
         print ("EXT_CSD Revision 0x{:x}".format(ecsd[192]))
     else:
         print EXTCSD_REVISION[EXT_CSD_rev]
-    print 'Device density: ' + "{:,}".format(SEC_COUNT/1024/1024) + ' MB.'
     print "GPP1 : " + str(GPP1_SIZE) + " kB. " + \
           "GPP2 : " + str(GPP2_SIZE) + " kB. " + \
           "GPP3 : " + str(GPP3_SIZE) + " kB. " + \
