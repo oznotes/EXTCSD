@@ -150,7 +150,6 @@ if __name__ == '__main__':
                     '0x3': 'Reserved'
                 }
         }
-
     if os.path.isfile("extcsd.bin") is True:
         if os.path.getsize("extcsd.bin") > 512:
             print "File size for extcsd.bin should be 512 bytes"
@@ -206,6 +205,9 @@ if __name__ == '__main__':
     HC_ERASE_GRP_SIZE_ECSD = int(ecsd[224])
     # ecsd177  =  ('{:08d}'.format(ecsd[177]))
     SEC_FEATURE_SUPPORT_ECSD = list(str(dec_to_bin(ecsd[231])))
+    #  SEC_COUNT [215:212]
+    SEC_COUNT = int("{:02x}".format(ecsd[215]) + "{:02x}".format(ecsd[214]) +
+                    "{:02x}".format(ecsd[213]) + "{:02x}".format(ecsd[212]), 16) * 512
     BOOT_BUS_CONDITIONS_ECSD = list(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[177])))))))
     CSD_rev = "0x{:x}".format(ecsd[194])
     EXT_CSD_rev = "0x{:x}".format(ecsd[192])
@@ -230,7 +232,6 @@ if __name__ == '__main__':
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
     GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
-    print PARTITIONING_SUPPORT_KEY
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
@@ -248,6 +249,7 @@ if __name__ == '__main__':
         print ("EXT_CSD Revision 0x{:x}".format(ecsd[192]))
     else:
         print EXTCSD_REVISION[EXT_CSD_rev]
+    print 'Device density: ' + "{:,}".format(SEC_COUNT/1024/1024) + ' MB.'
     print "GPP1 : " + str(GPP1_SIZE) + " kB. " + \
           "GPP2 : " + str(GPP2_SIZE) + " kB. " + \
           "GPP3 : " + str(GPP3_SIZE) + " kB. " + \
@@ -271,5 +273,3 @@ if __name__ == '__main__':
     print " "
     print "PRE_EOL_INFO [267] :"
     print '\tSTATUS = ' + PRE_EOL_INFO['0x'+str('{:02d}'.format(ecsd[267]))]
-
-
