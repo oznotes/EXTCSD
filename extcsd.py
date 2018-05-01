@@ -299,4 +299,3 @@ if __name__ == '__main__':
     print '\t' + BOOT_INFO['HS_BOOT_MODE'][BOOT_INFO_K[2]]
     print '\t' + BOOT_INFO['DDR_BOOT_MODE'][BOOT_INFO_K[1]]
     print '\t' + BOOT_INFO['ALT_BOOT_MODE'][BOOT_INFO_K[0]]
-
