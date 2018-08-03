@@ -272,7 +272,6 @@ if __name__ == '__main__':
     # USER_WP = list(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[171])))))))
     USER_WP_K = list(reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[171]))))))))
 
-    print USER_WP_K[7]
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
