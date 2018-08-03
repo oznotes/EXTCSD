@@ -160,8 +160,32 @@ if __name__ == '__main__':
                 },
             'US_PERM_WP_DIS':
                 {
-                    '0': 'Permanent write protection is ON.',  # 4 digit
-                    '1': 'Permanent write protection is OFF.'
+                    '0': 'Permanent write protection can be applied to write protection groups.',  # 4 digit
+                    '1': 'Permanently disable the use of permanent write protection for write protection groups within '
+                         '\n\t all the partitions in the user area from the point this bit is set forward. '
+                         '\n\t Setting this bit does not impact areas that are already protected.'
+                },
+            'US_PWR_WP_DIS':
+                {
+                    '0': 'Power-on write protection can be applied to write protection groups.',  # 3 digit
+                    '1': 'Disable the use of power-on period write protection for write protection '
+                         'groups within all the'
+                         '\n\t partitions in the user area from the point this bit is set until power is removed or '
+                         '\n\t a hardware reset occurs. '
+                         'Setting this bit does not impact areas that are already protected.'
+                },
+            'US_PERM_WP_EN':
+                {
+                    '0': 'Permanent write protection is not applied when CMD28 is issued.',  # 2 digit
+                    '1': 'Apply permanent write protection to the protection group indicated by CMD28. '
+                         '\n\t This bit cannot be set if US_PERM_WP_DIS is set.'
+                },
+            'US_PWR_WP_EN':
+                {
+                    '0': 'Power-on write protection is not applied when CMD28 is issued.',  # 0 digit
+                    '1': 'Apply Power-On Period protection to the protection group indicated by CMD28. This bit cannot '
+                         '\n\t be set if US_PWR_WP_DIS is set. This bit has not impact if US_PERM_WP_EN is set. '
+                         '\n\t This field is set to zero after power on or hardware reset.'
                 },
         }
 
@@ -307,6 +331,9 @@ if __name__ == '__main__':
     print '\t' + USER_WP['PERM_PSWD_DIS'][USER_WP_K[7]]
     print '\t' + USER_WP['CD_PERM_WP_DIS'][USER_WP_K[6]]
     print '\t' + USER_WP['US_PERM_WP_DIS'][USER_WP_K[4]]
+    print '\t' + USER_WP['US_PWR_WP_DIS'][USER_WP_K[3]]
+    print '\t' + USER_WP['US_PERM_WP_EN'][USER_WP_K[2]]
+    print '\t' + USER_WP['US_PWR_WP_EN'][USER_WP_K[0]]
     print " "
     print "BOOT_BUS_CONDITIONS [177] :"
     print '\t' + BOOT_BUS_CONDITIONS['BOOT_MODE'][BOOT_MODE_K]
