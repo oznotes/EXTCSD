@@ -96,7 +96,7 @@ if __name__ == '__main__':
             'SEC_SANITIZE':
                 {
                     '0x1': 'Device supports the sanitize operation.',  # 0 digit
-                    '0x0': 'Device does not support the sanitizeoperation.'
+                    '0x0': 'Device does not support the sanitize operation.'
                 },
             'SEC_GB_CL_EN(R)':
                 {
@@ -157,7 +157,12 @@ if __name__ == '__main__':
                 {
                     '0': 'Host is permitted to set PERM_WP_PROTECT .',  # 6 digit
                     '1': 'Disable the use of PERM_WP_PROTECT.'
-                }
+                },
+            'US_PERM_WP_DIS':
+                {
+                    '0': 'Permanent write protection is ON.',  # 4 digit
+                    '1': 'Permanent write protection is OFF.'
+                },
         }
 
     BOOT_BUS_CONDITIONS = \
@@ -240,7 +245,7 @@ if __name__ == '__main__':
     HC_WP_GRP_SIZE_ECSD = int(ecsd[221])
     HC_ERASE_GRP_SIZE_ECSD = int(ecsd[224])
     # ecsd177  =  ('{:08d}'.format(ecsd[177]))
-    SEC_FEATURE_SUPPORT_ECSD = list(str(dec_to_bin(ecsd[231])))
+    SEC_FEATURE_SUPPORT_ECSD = list(reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[231]))))))))
     #  SEC_COUNT [215:212]
     SEC_COUNT = int("{:02x}".format(ecsd[215]) + "{:02x}".format(ecsd[214]) +
                     "{:02x}".format(ecsd[213]) + "{:02x}".format(ecsd[212]), 16) * 512
@@ -272,6 +277,8 @@ if __name__ == '__main__':
     # USER_WP = list(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[171])))))))
     USER_WP_K = list(reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[171]))))))))
 
+    print SEC_FEATURE_SUPPORT_ECSD
+    #print SEC_FEATURE_SUPPORT_ECSD2
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
@@ -303,8 +310,9 @@ if __name__ == '__main__':
     print "USER_WP [171] :"
     print '\t' + USER_WP['PERM_PSWD_DIS'][USER_WP_K[7]]
     print '\t' + USER_WP['CD_PERM_WP_DIS'][USER_WP_K[6]]
+    print '\t' + USER_WP['US_PERM_WP_DIS'][USER_WP_K[4]]
     print " "
-    print "BOOT_BUS_CONDITIONS_[177] :"
+    print "BOOT_BUS_CONDITIONS [177] :"
     print '\t' + BOOT_BUS_CONDITIONS['BOOT_MODE'][BOOT_MODE_K]
     print '\t' + BOOT_BUS_CONDITIONS['RESET_BOOT_BUS_CONDITIONS'][RESET_BOOT_BUS_CONDITIONS_K]
     print '\t' + BOOT_BUS_CONDITIONS['BOOT_BUS_WIDTH'][BOOT_BUS_WIDTH_K]
@@ -314,7 +322,7 @@ if __name__ == '__main__':
     print '\t' + BOOT_INFO['DDR_BOOT_MODE'][BOOT_INFO_K[1]]
     print '\t' + BOOT_INFO['ALT_BOOT_MODE'][BOOT_INFO_K[0]]
     print " "
-    print "SEC_FEATURE_SUPPORT_[231] :"
+    print "SEC_FEATURE_SUPPORT [231] :"
     print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_SANITIZE'][SEC_SANITIZE_K]
     print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_GB_CL_EN(R)'][SEC_GB_CL_EN_K]
     print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_BD_BLK_EN(R)'][SEC_BD_BLK_EN_K]
