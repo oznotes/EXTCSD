@@ -244,7 +244,6 @@ if __name__ == '__main__':
     PARTITIONING_EN_KEY = '0x' + PARTITIONING_SUPPORT_KEY[0]
     HC_WP_GRP_SIZE_ECSD = int(ecsd[221])
     HC_ERASE_GRP_SIZE_ECSD = int(ecsd[224])
-    # ecsd177  =  ('{:08d}'.format(ecsd[177]))
     SEC_FEATURE_SUPPORT_ECSD = list(reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[231]))))))))
     #  SEC_COUNT [215:212]
     SEC_COUNT = int("{:02x}".format(ecsd[215]) + "{:02x}".format(ecsd[214]) +
@@ -274,11 +273,8 @@ if __name__ == '__main__':
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
     GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
-    # USER_WP = list(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[171])))))))
     USER_WP_K = list(reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[171]))))))))
 
-    print SEC_FEATURE_SUPPORT_ECSD
-    #print SEC_FEATURE_SUPPORT_ECSD2
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
