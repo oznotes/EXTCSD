@@ -22,41 +22,44 @@
 
 EXTCSD Decoder
 
-========================================<br>
-Device density : 14,910 MB.<br>
-Boot Partition Size : 4096 kB.<br>
-RPMB Size : 4096 kB.<br>
-Boot 2 with ACK enabled [0x50]<br>
-CSD version No. 1.2  <br>
-CSD Spec  : [ 4.1, 4.2, 4.3, 4.4, 4.41, 4.5, 4.51, 5.0, 5.01, 5.1 ] <br>
-Revision 1.7 (for MMC v5.0, v5.01) <br>
-GPP1 : 16384 kB. GPP2 : 0 kB. GPP3 : 0 kB. GPP4 : 0 kB. <br>
-<br>
-SEC_FEATURE_SUPPORT_[231] :<br>
-&nbsp;&nbsp;Device supports the sanitize operation.<br>
-&nbsp;&nbsp;Device supports the secure and insecure trim operations.<br>
-&nbsp;&nbsp;Device supports the automatic erase operation on retired <br>
-&nbsp;&nbsp;&nbsp;&nbsp;defective portions of the array.<br>
-&nbsp;&nbsp;Secure purge operations are supported.<br>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<br>
-BOOT_BUS_CONDITIONS_[177] :<br>
-&nbsp;&nbsp;Use single data rate + backward compatible timings in boot operation (default).<br>
-&nbsp;&nbsp;Reset bus width to x1, single data rate and backward compatible <br>
-&nbsp;&nbsp;&nbsp;&nbsp;timings after boot operation (default)<br>
-&nbsp;&nbsp;X1 (sdr) or x4 (ddr) bus width in boot operation mode (default)<br>
-<br>
-PARTITIONING_SUPPORT [160] :<br>
-&nbsp;&nbsp;	Device can have extended partitions attribute<br>
-&nbsp;&nbsp;	Device can have enhanced technological features in partitions and user data area<br>
-&nbsp;&nbsp;	Device supports partitioning features <br>
- <br>
-PRE_EOL_INFO [267] :<br>
-&nbsp;&nbsp;	STATUS = Normal : Normal<br>
-<br>
-BOOT_INFO [228] :<br>
-&nbsp;&nbsp;	Device supports high speed timing during boot.<br>
-&nbsp;&nbsp;	Device supports dual data rate during boot.<br>
-&nbsp;&nbsp;	Device supports alternative boot method. <br>
-&nbsp;&nbsp;&nbsp;	 [+] Device must show [1] since this is mandatory in v4.4 standard<br>
+========================================
+Device density : 3,696 MB.
+Boot Partition Size : 2048 kB.
+RPMB Size : 2048 kB.
+Boot 1 with ACK enabled [0x48]
+CSD version No. 1.2
+CSD Spec  : [ 4.1, 4.2, 4.3, 4.4, 4.41, 4.5, 4.51, 5.0, 5.01, 5.1 ]
+Revision 1.5 (for MMC v4.41)
+GPP1 : 0 kB. GPP2 : 0 kB. GPP3 : 0 kB. GPP4 : 0 kB.
 
+PARTITIONING_SUPPORT [160] :
+        n/a.
+        Device can have enhanced technological features in partitions and user data area
+        Device supports partitioning features
+
+USER_WP [171] :
+        Password protection features are enabled.
+        Host is permitted to set PERM_WP_PROTECT .
+        Permanent write protection is ON.
+
+BOOT_BUS_CONDITIONS [177] :
+        Use single data rate + backward compatible timings in boot operation (default).
+        Reset bus width to x1, single data rate and backward compatible
+         timings after boot operation (default)
+        X1 (sdr) or x4 (ddr) bus width in boot operation mode (default)
+
+BOOT_INFO [228] :
+        Device supports high speed timing during boot.
+        Device supports dual data rate during boot.
+        Device supports alternative boot method.
+         [+] Device must show [1] since this is mandatory in v4.4 standard
+
+SEC_FEATURE_SUPPORT [231] :
+        Device supports the sanitize operation.
+        Device supports the secure and insecure trim operations.
+        Device supports the automatic erase operation on retired
+          defective portions of the array.
+        Secure purge operations are not supported on the device.
+
+PRE_EOL_INFO [267] :
+        STATUS = Not Defined
