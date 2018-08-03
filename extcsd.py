@@ -253,6 +253,8 @@ if __name__ == '__main__':
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
     GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
+
+    USER_WP = list(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[171])))))))
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
