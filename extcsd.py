@@ -91,7 +91,7 @@ if __name__ == '__main__':
                 }
         }
     SEC_FEATURE_SUPPORT_KEY = \
-        {   # 0 1 2 3 4 5 6 SEC_FEATURE_SUPPORT_ECSD List
+        {   # 0 1 2 3 4 5 6 7 SEC_FEATURE_SUPPORT_ECSD List
             # 7 6 5 4 3 2 1 0 from JEDEC Manual
             'SEC_SANITIZE':
                 {
@@ -144,6 +144,22 @@ if __name__ == '__main__':
                          '\t [+] Device must show [1] since this is mandatory in v4.4 standard'
                 }
             }
+
+    USER_WP = \
+        {   #
+            # 7 6 5 4 3 2 1 0 from JEDEC Manual
+            'PERM_PSWD_DIS':
+                {
+                    '0': 'Password protection features are enabled.',  # 7 digit
+                    '1': 'Password protection features are disabled permanently.'
+                },
+            'CD_PERM_WP_DIS':
+                {
+                    '0': 'Host is permitted to set PERM_WP_PROTECT .',  # 6 digit
+                    '1': 'Disable the use of PERM_WP_PROTECT.'
+                }
+        }
+
     BOOT_BUS_CONDITIONS = \
         {   # BOOT_BUS_CONDITIONS [177]
             # 0 1 2 |3 4 | 5 6 7 BOOT_BUS_CONDITIONS_ECSD List
@@ -253,8 +269,10 @@ if __name__ == '__main__':
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
     GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
+    # USER_WP = list(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[171])))))))
+    USER_WP_K = list(reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[171]))))))))
 
-    USER_WP = list(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[171])))))))
+    print USER_WP_K[7]
     print "\n"
     print "EXTCSD Decoder\n"
     print "========================================"
@@ -278,26 +296,30 @@ if __name__ == '__main__':
           "GPP3 : " + str(GPP3_SIZE) + " kB. " + \
           "GPP4 : " + str(GPP4_SIZE) + " kB. "
     print " "
-    print "SEC_FEATURE_SUPPORT_[231] :"
-    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_SANITIZE'][SEC_SANITIZE_K]
-    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_GB_CL_EN(R)'][SEC_GB_CL_EN_K]
-    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_BD_BLK_EN(R)'][SEC_BD_BLK_EN_K]
-    print '\t' + SEC_FEATURE_SUPPORT_KEY['SECURE_ER_EN(R)'][SECURE_ER_EN_K]
+    print "PARTITIONING_SUPPORT [160] :"
+    print '\t' + PARTITIONING_SUPPORT['EXT_ATTRIBUTE_EN'][EXT_ATTRIBUTE_EN_KEY]
+    print '\t' + PARTITIONING_SUPPORT['ENH_ATTRIBUTE_EN'][ENH_ATTRIBUTE_EN_KEY]
+    print '\t' + PARTITIONING_SUPPORT['PARTITIONING_EN'][PARTITIONING_EN_KEY]
+    print " "
+    print "USER_WP [171] :"
+    print '\t' + USER_WP['PERM_PSWD_DIS'][USER_WP_K[7]]
+    print '\t' + USER_WP['CD_PERM_WP_DIS'][USER_WP_K[6]]
     print " "
     print "BOOT_BUS_CONDITIONS_[177] :"
     print '\t' + BOOT_BUS_CONDITIONS['BOOT_MODE'][BOOT_MODE_K]
     print '\t' + BOOT_BUS_CONDITIONS['RESET_BOOT_BUS_CONDITIONS'][RESET_BOOT_BUS_CONDITIONS_K]
     print '\t' + BOOT_BUS_CONDITIONS['BOOT_BUS_WIDTH'][BOOT_BUS_WIDTH_K]
     print " "
-    print "PARTITIONING_SUPPORT [160] :"
-    print '\t' + PARTITIONING_SUPPORT['EXT_ATTRIBUTE_EN'][EXT_ATTRIBUTE_EN_KEY]
-    print '\t' + PARTITIONING_SUPPORT['ENH_ATTRIBUTE_EN'][ENH_ATTRIBUTE_EN_KEY]
-    print '\t' + PARTITIONING_SUPPORT['PARTITIONING_EN'][PARTITIONING_EN_KEY]
-    print " "
-    print "PRE_EOL_INFO [267] :"
-    print '\tSTATUS = ' + PRE_EOL_INFO['0x'+str('{:02d}'.format(ecsd[267]))]
-    print " "
     print "BOOT_INFO [228] :"
     print '\t' + BOOT_INFO['HS_BOOT_MODE'][BOOT_INFO_K[2]]
     print '\t' + BOOT_INFO['DDR_BOOT_MODE'][BOOT_INFO_K[1]]
     print '\t' + BOOT_INFO['ALT_BOOT_MODE'][BOOT_INFO_K[0]]
+    print " "
+    print "SEC_FEATURE_SUPPORT_[231] :"
+    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_SANITIZE'][SEC_SANITIZE_K]
+    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_GB_CL_EN(R)'][SEC_GB_CL_EN_K]
+    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_BD_BLK_EN(R)'][SEC_BD_BLK_EN_K]
+    print '\t' + SEC_FEATURE_SUPPORT_KEY['SECURE_ER_EN(R)'][SECURE_ER_EN_K]
+    print " "
+    print "PRE_EOL_INFO [267] :"
+    print '\tSTATUS = ' + PRE_EOL_INFO['0x'+str('{:02d}'.format(ecsd[267]))]
