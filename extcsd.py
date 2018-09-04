@@ -1,6 +1,6 @@
 import binascii
-import sys
 import os
+import sys
 
 __author__ = "Oz"
 __copyright__ = "EXT CSD Decoder"
@@ -140,10 +140,10 @@ if __name__ == '__main__':
             'ALT_BOOT_MODE':
                 {
                     '0': 'Device does not support alternative boot method (obsolete)',
-                    '1': 'Device supports alternative boot method. \n'  
+                    '1': 'Device supports alternative boot method. \n'
                          '\t [+] Device must show [1] since this is mandatory in v4.4 standard'
                 }
-            }
+        }
 
     USER_WP = \
         {   #
@@ -262,30 +262,38 @@ if __name__ == '__main__':
     GP4_SIZE_MULT_X_0 = int(ecsd[152])
     GP4_SIZE_MULT_X_1 = int(ecsd[153])
     GP4_SIZE_MULT_X_2 = int(ecsd[154])
-    PARTITIONING_SUPPORT_KEY = list(reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[160]))))))))
+    PARTITIONING_SUPPORT_KEY = list(
+        reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[160]))))))))
     EXT_ATTRIBUTE_EN_KEY = '0x' + PARTITIONING_SUPPORT_KEY[2]
     ENH_ATTRIBUTE_EN_KEY = '0x' + PARTITIONING_SUPPORT_KEY[1]
     PARTITIONING_EN_KEY = '0x' + PARTITIONING_SUPPORT_KEY[0]
     HC_WP_GRP_SIZE_ECSD = int(ecsd[221])
     HC_ERASE_GRP_SIZE_ECSD = int(ecsd[224])
-    SEC_FEATURE_SUPPORT_ECSD = list(reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[231]))))))))
+    SEC_FEATURE_SUPPORT_ECSD = list(
+        reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[231]))))))))
     #  SEC_COUNT [215:212]
     SEC_COUNT = int("{:02x}".format(ecsd[215]) + "{:02x}".format(ecsd[214]) +
                     "{:02x}".format(ecsd[213]) + "{:02x}".format(ecsd[212]), 16) * 512
-    BOOT_BUS_CONDITIONS_ECSD = list(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[177])))))))
+    BOOT_BUS_CONDITIONS_ECSD = list(
+        str(('{:08d}'.format(int(str(dec_to_bin(ecsd[177])))))))
     CSD_rev = "0x{:x}".format(ecsd[194])
     EXT_CSD_rev = "0x{:x}".format(ecsd[192])
     partition_config = "0x{:x}".format(ecsd[179])
-    BOOT_INFO_K = list(reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[228]))))))))
+    BOOT_INFO_K = list(
+        reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[228]))))))))
     SEC_SANITIZE_K = '0x' + SEC_FEATURE_SUPPORT_ECSD[0]
     SEC_GB_CL_EN_K = '0x' + SEC_FEATURE_SUPPORT_ECSD[2]
     SEC_BD_BLK_EN_K = '0x' + SEC_FEATURE_SUPPORT_ECSD[4]
     SECURE_ER_EN_K = '0x' + SEC_FEATURE_SUPPORT_ECSD[6]
-    BOOT_MODE_K = '0x' + str(int(BOOT_BUS_CONDITIONS_ECSD[3] + BOOT_BUS_CONDITIONS_ECSD[4], 2))
+    BOOT_MODE_K = '0x' + \
+        str(int(BOOT_BUS_CONDITIONS_ECSD[3] + BOOT_BUS_CONDITIONS_ECSD[4], 2))
     RESET_BOOT_BUS_CONDITIONS_K = '0x' + str(int(BOOT_BUS_CONDITIONS_ECSD[5]))
-    BOOT_BUS_WIDTH_K = '0x' + str(int(BOOT_BUS_CONDITIONS_ECSD[6] + BOOT_BUS_CONDITIONS_ECSD[7], 2))
-    boot_size = int(ecsd[226]) * 128  # BOOT_SIZE_MULT [226] Boot Partition size = 128K bytes * BOOT_SIZE_MULT
-    rpmb_size = int(ecsd[168]) * 128  # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
+    BOOT_BUS_WIDTH_K = '0x' + \
+        str(int(BOOT_BUS_CONDITIONS_ECSD[6] + BOOT_BUS_CONDITIONS_ECSD[7], 2))
+    # BOOT_SIZE_MULT [226] Boot Partition size = 128K bytes * BOOT_SIZE_MULT
+    boot_size = int(ecsd[226]) * 128
+    # RPMB_SIZE_MULT [168] RPMB partition size = 128kB * RPMB_SIZE_MULT
+    rpmb_size = int(ecsd[168]) * 128
     HC_WP_GRP_SIZE = 512 * int(ecsd[224]) * int(ecsd[221]) * 1024
     HC_ERASE_GRP_SIZE = 512 * int(ecsd[224]) * 1024
     # GPP Partition formula applied.
@@ -297,7 +305,8 @@ if __name__ == '__main__':
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
     GPP4_SIZE = (GP4_SIZE_MULT_X_2 * 2**16 + GP4_SIZE_MULT_X_1 * 2**8 + GP4_SIZE_MULT_X_0 * 2**0
                  ) * HC_ERASE_GRP_SIZE_ECSD * HC_WP_GRP_SIZE_ECSD * 512
-    USER_WP_K = list(reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[171]))))))))
+    USER_WP_K = list(
+        reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[171]))))))))
 
     print "\n"
     print "EXTCSD Decoder\n"
@@ -308,7 +317,8 @@ if __name__ == '__main__':
     if PARTITION_CONFIG_KEY.get(partition_config) is None:
         print ("Partition Config 0x{:x}".format(ecsd[179]))
     else:
-        print PARTITION_CONFIG_KEY[partition_config] + "[0x{:x}]".format(ecsd[179])
+        print PARTITION_CONFIG_KEY[partition_config] + \
+            "[0x{:x}]".format(ecsd[179])
     if CSD_REVISION.get(CSD_rev) is None:
         print ("CSD Revision 0x{:x}".format(ecsd[194]))
     else:
@@ -337,7 +347,8 @@ if __name__ == '__main__':
     print " "
     print "BOOT_BUS_CONDITIONS [177] :"
     print '\t' + BOOT_BUS_CONDITIONS['BOOT_MODE'][BOOT_MODE_K]
-    print '\t' + BOOT_BUS_CONDITIONS['RESET_BOOT_BUS_CONDITIONS'][RESET_BOOT_BUS_CONDITIONS_K]
+    print '\t' + \
+        BOOT_BUS_CONDITIONS['RESET_BOOT_BUS_CONDITIONS'][RESET_BOOT_BUS_CONDITIONS_K]
     print '\t' + BOOT_BUS_CONDITIONS['BOOT_BUS_WIDTH'][BOOT_BUS_WIDTH_K]
     print " "
     print "BOOT_INFO [228] :"
