@@ -217,7 +217,7 @@ if __name__ == '__main__':
         }
     if os.path.isfile("extcsd.bin") is True:
         if os.path.getsize("extcsd.bin") > 512:
-            print "File size for extcsd.bin should be 512 bytes"
+            print("File size for extcsd.bin should be 512 bytes")
             sys.exit()
         else:
             f = open("extcsd.bin", "rb")
@@ -244,10 +244,10 @@ if __name__ == '__main__':
                             sys.stdout.write("   ")
                     sys.stdout.write("\n")
             else:
-                print "File is empty"
+                print("File is empty")
                 sys.exit()
     else:
-        print "File not found"
+        print("File not found")
         sys.exit()
     # GPP Formula Multipliers.
     GP1_SIZE_MULT_X_0 = int(ecsd[143])
@@ -308,59 +308,61 @@ if __name__ == '__main__':
     USER_WP_K = list(
         reversed(str(('{:08d}'.format(int(str(dec_to_bin(ecsd[171]))))))))
 
-    print "\n"
-    print "EXTCSD Decoder\n"
-    print "========================================"
-    print 'Device density : ' + "{:,}".format(SEC_COUNT/1024/1024) + ' MB.'
-    print "Boot Partition Size : " + str(boot_size) + " kB."
-    print "RPMB Size : " + str(rpmb_size) + " kB."
+    print("\n")
+    print("EXTCSD Decoder\n")
+    print("========================================")
+    print('Device density : ' + "{:,}".format(SEC_COUNT/1024/1024) + ' MB.')
+    print("Boot Partition Size : " + str(boot_size) + " kB.")
+    print("RPMB Size : " + str(rpmb_size) + " kB.")
     if PARTITION_CONFIG_KEY.get(partition_config) is None:
-        print ("Partition Config 0x{:x}".format(ecsd[179]))
+        print("Partition Config 0x{:x}".format(ecsd[179]))
     else:
-        print PARTITION_CONFIG_KEY[partition_config] + \
-            "[0x{:x}]".format(ecsd[179])
+        print(PARTITION_CONFIG_KEY[partition_config] +
+              "[0x{:x}]".format(ecsd[179]))
     if CSD_REVISION.get(CSD_rev) is None:
-        print ("CSD Revision 0x{:x}".format(ecsd[194]))
+        print("CSD Revision 0x{:x}".format(ecsd[194]))
     else:
-        print CSD_REVISION[CSD_rev]
+        print(CSD_REVISION[CSD_rev])
     if EXTCSD_REVISION.get(EXT_CSD_rev) is None:
-        print ("EXT_CSD Revision 0x{:x}".format(ecsd[192]))
+        print("EXT_CSD Revision 0x{:x}".format(ecsd[192]))
     else:
-        print EXTCSD_REVISION[EXT_CSD_rev]
-    print "GPP1 : " + str(GPP1_SIZE) + " kB. " + \
-          "GPP2 : " + str(GPP2_SIZE) + " kB. " + \
-          "GPP3 : " + str(GPP3_SIZE) + " kB. " + \
-          "GPP4 : " + str(GPP4_SIZE) + " kB. "
-    print " "
-    print "PARTITIONING_SUPPORT [160] :"
-    print '\t' + PARTITIONING_SUPPORT['EXT_ATTRIBUTE_EN'][EXT_ATTRIBUTE_EN_KEY]
-    print '\t' + PARTITIONING_SUPPORT['ENH_ATTRIBUTE_EN'][ENH_ATTRIBUTE_EN_KEY]
-    print '\t' + PARTITIONING_SUPPORT['PARTITIONING_EN'][PARTITIONING_EN_KEY]
-    print " "
-    print "USER_WP [171] :"
-    print '\t' + USER_WP['PERM_PSWD_DIS'][USER_WP_K[7]]
-    print '\t' + USER_WP['CD_PERM_WP_DIS'][USER_WP_K[6]]
-    print '\t' + USER_WP['US_PERM_WP_DIS'][USER_WP_K[4]]
-    print '\t' + USER_WP['US_PWR_WP_DIS'][USER_WP_K[3]]
-    print '\t' + USER_WP['US_PERM_WP_EN'][USER_WP_K[2]]
-    print '\t' + USER_WP['US_PWR_WP_EN'][USER_WP_K[0]]
-    print " "
-    print "BOOT_BUS_CONDITIONS [177] :"
-    print '\t' + BOOT_BUS_CONDITIONS['BOOT_MODE'][BOOT_MODE_K]
-    print '\t' + \
-        BOOT_BUS_CONDITIONS['RESET_BOOT_BUS_CONDITIONS'][RESET_BOOT_BUS_CONDITIONS_K]
-    print '\t' + BOOT_BUS_CONDITIONS['BOOT_BUS_WIDTH'][BOOT_BUS_WIDTH_K]
-    print " "
-    print "BOOT_INFO [228] :"
-    print '\t' + BOOT_INFO['HS_BOOT_MODE'][BOOT_INFO_K[2]]
-    print '\t' + BOOT_INFO['DDR_BOOT_MODE'][BOOT_INFO_K[1]]
-    print '\t' + BOOT_INFO['ALT_BOOT_MODE'][BOOT_INFO_K[0]]
-    print " "
-    print "SEC_FEATURE_SUPPORT [231] :"
-    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_SANITIZE'][SEC_SANITIZE_K]
-    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_GB_CL_EN(R)'][SEC_GB_CL_EN_K]
-    print '\t' + SEC_FEATURE_SUPPORT_KEY['SEC_BD_BLK_EN(R)'][SEC_BD_BLK_EN_K]
-    print '\t' + SEC_FEATURE_SUPPORT_KEY['SECURE_ER_EN(R)'][SECURE_ER_EN_K]
-    print " "
-    print "PRE_EOL_INFO [267] :"
-    print '\tSTATUS = ' + PRE_EOL_INFO['0x'+str('{:02d}'.format(ecsd[267]))]
+        print(EXTCSD_REVISION[EXT_CSD_rev])
+    print("GPP1 : " + str(GPP1_SIZE) + " kB. " +
+          "GPP2 : " + str(GPP2_SIZE) + " kB. " +
+          "GPP3 : " + str(GPP3_SIZE) + " kB. " +
+          "GPP4 : " + str(GPP4_SIZE) + " kB. ")
+    print(" ")
+    print("PARTITIONING_SUPPORT [160] :")
+    print(
+        '\t' + PARTITIONING_SUPPORT['EXT_ATTRIBUTE_EN'][EXT_ATTRIBUTE_EN_KEY])
+    print(
+        '\t' + PARTITIONING_SUPPORT['ENH_ATTRIBUTE_EN'][ENH_ATTRIBUTE_EN_KEY])
+    print('\t' + PARTITIONING_SUPPORT['PARTITIONING_EN'][PARTITIONING_EN_KEY])
+    print(" ")
+    print("USER_WP [171] :")
+    print('\t' + USER_WP['PERM_PSWD_DIS'][USER_WP_K[7]])
+    print('\t' + USER_WP['CD_PERM_WP_DIS'][USER_WP_K[6]])
+    print('\t' + USER_WP['US_PERM_WP_DIS'][USER_WP_K[4]])
+    print('\t' + USER_WP['US_PWR_WP_DIS'][USER_WP_K[3]])
+    print('\t' + USER_WP['US_PERM_WP_EN'][USER_WP_K[2]])
+    print('\t' + USER_WP['US_PWR_WP_EN'][USER_WP_K[0]])
+    print(" ")
+    print("BOOT_BUS_CONDITIONS [177] :")
+    print('\t' + BOOT_BUS_CONDITIONS['BOOT_MODE'][BOOT_MODE_K])
+    print('\t' +
+          BOOT_BUS_CONDITIONS['RESET_BOOT_BUS_CONDITIONS'][RESET_BOOT_BUS_CONDITIONS_K])
+    print('\t' + BOOT_BUS_CONDITIONS['BOOT_BUS_WIDTH'][BOOT_BUS_WIDTH_K])
+    print(" ")
+    print("BOOT_INFO [228] :")
+    print('\t' + BOOT_INFO['HS_BOOT_MODE'][BOOT_INFO_K[2]])
+    print('\t' + BOOT_INFO['DDR_BOOT_MODE'][BOOT_INFO_K[1]])
+    print('\t' + BOOT_INFO['ALT_BOOT_MODE'][BOOT_INFO_K[0]])
+    print(" ")
+    print("SEC_FEATURE_SUPPORT [231] :")
+    print('\t' + SEC_FEATURE_SUPPORT_KEY['SEC_SANITIZE'][SEC_SANITIZE_K])
+    print('\t' + SEC_FEATURE_SUPPORT_KEY['SEC_GB_CL_EN(R)'][SEC_GB_CL_EN_K])
+    print('\t' + SEC_FEATURE_SUPPORT_KEY['SEC_BD_BLK_EN(R)'][SEC_BD_BLK_EN_K])
+    print('\t' + SEC_FEATURE_SUPPORT_KEY['SECURE_ER_EN(R)'][SECURE_ER_EN_K])
+    print(" ")
+    print("PRE_EOL_INFO [267] :")
+    print('\tSTATUS = ' + PRE_EOL_INFO['0x'+str('{:02d}'.format(ecsd[267]))])
